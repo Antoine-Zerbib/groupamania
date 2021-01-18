@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 //package qui permet de creer des tokens et les vérifier
 const jwt = require('jsonwebtoken');
 
-//import des validators
-const mailValidator = require('email-validator');
-const schema = require('../middleware/password-validator'); 
+// //import des validators
+// const mailValidator = require('email-validator');
+// const schema = require('../middleware/password-validator'); 
 
 //on va enregistrer et lire des users dans ce middleware, donc besoin du modèle User
 const User = require('../models/User');
@@ -16,9 +16,9 @@ const User = require('../models/User');
 
 exports.signup = (req, res, next) => {
 
-    if (!mailValidator.validate(req.body.email) || (!schema.validate(req.body.password))) { 
-        throw { error: "Merci de bien vouloir entrer une adresse email et un mot de passe valide !" }
-    }
+    // if (!mailValidator.validate(req.body.email) || (!schema.validate(req.body.password))) { 
+    //     throw { error: "Merci de bien vouloir entrer une adresse email et un mot de passe valide !" }
+    // }
 
     //10 est le Salt, nb de hashages du mdp pour empécher les 'rainbow table attacks' et résiter aux 'brute-force attacks'
     bcrypt.hash(req.body.password, 10)

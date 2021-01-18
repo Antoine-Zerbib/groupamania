@@ -1,5 +1,7 @@
 const { json } = require('body-parser');
- const Message = require('../models/Message');
+
+//modif controller SQL ont lieu sur les modèles
+const Post = require('../models/Post');
 
 //import du package fs de nodes
 const fs = require('fs'); //donne accès aux différentes opérations liées au système de fichier
@@ -7,38 +9,37 @@ const fs = require('fs'); //donne accès aux différentes opérations liées au 
 
 /* --  CREATE  -- */
 
-exports.createSauce = (req, res, next) => {
-    const sauceObject = JSON.parse(req.body.sauce); 
-    delete sauceObject._id;
-    const sauce = new Sauce({
-        ...sauceObject,
+exports.createPost = (req, res, next) => {
+    const postObject = JSON.parse(req.body.post); 
+    delete postObject._id;
+    const post = new Post({
+        ...postObject,
 
         //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
         //car c'est notre middleware multer qui a généré ce fichier
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 
-       
     });
 
-    sauce.save() 
+    post.save() 
         .then(() => res.status(201).json({ message : 'Objet enregistré !'})) 
         .catch(error => res.status(400).json({ error })); 
 };
 
 /* --  MODIFY  -- */
 
-exports.modifySauce = (req, res, next) => {
+exports.modifyPost = (req, res, next) => {
 
     //test pour savoir dans quel cas de figure on se trouve
-    const sauceObject = req.file ?// '?' opérateur ternaire => savoir si il existe
+    const postObject = req.file ?// '?' opérateur ternaire => savoir si il existe
     { 
-        ...JSON.parse(req.body.sauce),  //récupérer les infos sur l'objet dans cette partie de la requête
+        ...JSON.parse(req.body.post),  //récupérer les infos sur l'objet dans cette partie de la requête
 
         //et on génère l'imageUrl
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {...req.body };
     
-    Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id })
+    Post.updateOne({ _id: req.params.id}, { ...postObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Objet modifié !' }))
         .catch(error => res.status(400).json({ error }));
 };
@@ -47,19 +48,19 @@ exports.modifySauce = (req, res, next) => {
 /* --  DELETE  -- */
 
     //pour accéder aux fichier, on va faire une importation de 'fs' (file system) L.6
-exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id }) 
+exports.deletePost = (req, res, next) => {
+    Post.findOne({ _id: req.params.id }) 
 
-        //dans le callback on récupère une 'sauce'
+        //dans le callback on récupère un 'post'
         //avec laquelle on veut récupérer non pas l'url, mais le nom précis du fichier
-        .then(sauce => {
-            const filename = sauce.imageUrl.split('/images/')[1]; 
+        .then(post => {
+            const filename = post.imageUrl.split('/images/')[1]; 
 
             // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
             fs.unlink(`images/${filename}`, () => {
 
                 // une fois supprimé on veut enlever le 'Thing de la base de données
-                Sauce.deleteOne({ _id: req.params.id }) 
+                Post.deleteOne({ _id: req.params.id }) 
                     .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
                     .catch(error => res.status(400).json({ error }));
             }); 
@@ -70,16 +71,18 @@ exports.deleteSauce = (req, res, next) => {
 
 /* --  READ  -- */
 
-// recupérer les infos d'une sauce
-exports.getOneSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-        .then(sauce => res.status(200).json(sauce)) 
+// recupérer les infos d'une post
+exports.getOnePost = (req, res, next) => {
+    Post.findOne({ _id: req.params.id })
+        .then(post => res.status(200).json(post)) 
         .catch(error => res.status(404).json({ error })); 
 };
 
-//récupérer toutes les sauces
-exports.getAllSauce = (req, res, next) => {
-    Sauce.find()// sans arguments pour récupérer la liste complète dans un promise
-        .then(sauces => res.status(200).json(sauces)) 
+//récupérer tous les posts
+exports.getAllPost = (req, res, next) => {
+    Post.find()// sans arguments pour récupérer la liste complète dans un promise
+        .then(posts => res.status(200).json(posts)) 
         .catch(error => res.status(400).json({ error }));
 };
+
+

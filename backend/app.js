@@ -16,6 +16,7 @@ const path = require('path');
 //import des routes
 const messageRoutes = require('./routes/message'); 
 const userRoutes = require('./routes/user');
+const commentaireRoutes = require('./routes/commentaire'); 
 
 // //logique pour se connecter à mongoDB
 // //pluggin dotenv va chercher l'url mongo dans le fichier '.env'
@@ -52,6 +53,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 //le début dela route, ! ATTENTION ! il ne faut pas mettre le point ./api/sauces => error
 app.use('/api/message', messageRoutes); 
 app.use('/api/auth', userRoutes); 
+app.use('/api/commentaire', commentaireRoutes); 
 
 //export de l'application pour y accéder depuis les autres fichiers, notamment le serveur nodes
 module.exports = app;

@@ -37,6 +37,7 @@ const base64ImageToFile = require('base64image-to-file');
 
 
 /* --  MESSAGES  -- */
+/* ---------------- */
 
 //POST Message
 exports.createMessage = (req, res, next) => {
@@ -85,42 +86,88 @@ exports.createMessage = (req, res, next) => {
 /* --  MODIFY  -- */
 
 exports.modifyMessage = (req, res, next) => {
+    
+    const content = req.body.content
+    const id = req.body.id
+    console.log(content)
+    console.log(id)
+        db.query(
+        `UPDATE messages SET content='${content}' WHERE id=${id}`,
+        (error, results, fields) => {
+            if (error) {
+            return res.status(400).json(error)
+            }
+            return res.status(200).json({ message: 'Votre message a bien été modifié !' })
+        } 
+    )
 };
 
 
 /* --  DELETE  -- */
 
-    //pour accéder aux fichier, on va faire une importation de 'fs' (file system) L.6
-exports.deleteMessage = (req, res, next) => {};
+exports.deleteMessage = (req, res, next) => {
+   
+//à rajouter pour supprimer les messages qui ont des commentaires :
+    // db.query(
+    //     'DELETE FROM commentaires WHERE message_id=?', req.params.id, (error, result, fields) => {
+    //         if (error) {
+    //             return res.status(400).json(error)
+    //         }
+    //           //à supprimer apres
+    //     console.log('suppression des commentaires du message spécifié - ok')
+
+    //     return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+    //     }
+    // )
+   
+    db.query(
+        'DELETE FROM messages WHERE id=?', 
+        req.params.id, 
+        (error, result, fields) => {
+            if (error) {
+                return res.status(400).json(error)
+            }
+            
+            //à supprimer apres
+            console.log('suppression d un message spécifique - ok')
+
+            return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+        }
+    )
+};
 
 
 /* --  READ  -- */
 
 // recupérer les infos d'un message
 exports.getOneMessage = (req, res, next) => {
+    db.query(
+        'SELECT* FROM messages WHERE id=? ',
+        req.params.id,
+        (error, result, field) => {
+            if (error) {
+                return res.status(400).json({ error })
+            }
+
+            //à supprimer apres
+            console.log('récupération d un message spécifique - ok')
+
+            return res.status(200).json(result)
+        }
+    )
 };
 
 //récupérer tous les messages
 exports.getAllMessages = (req, res, next) => {
-    //WHERE idMESSAGES < 133 LIMIT 2
     db.query('SELECT * FROM messages  ORDER BY publication DESC', (error, result, field) => {
         if (error) {
             return res.status(400).json({ error })
         }
+
+        //à supprimer apres
+        console.log('récupération de tous les messages - ok')
+
         return res.status(200).json(result)
     })
 };
 
-
-/* --  COMMENTAIRES  -- */
-
-//récupérer tous les messages
-exports.getAllCommentaires = (req, res, next) => {
-    //WHERE idMESSAGES < 133 LIMIT 2
-    db.query('SELECT * FROM commentaires  ORDER BY publication DESC', (error, result, field) => {
-        if (error) {
-            return res.status(400).json({ error })
-        }
-        return res.status(200).json(result)
-    })
-};

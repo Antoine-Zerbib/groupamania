@@ -30,11 +30,15 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(password, 10)
         .then(hash => {
                 password = hash 
-                db.query(`INSERT INTO user SET ?`, users, (err, result, field) => {
+                db.query(`INSERT INTO users SET ?`, users, (err, result, field) => {
                     if (err) {
                         console.log(err)
                         return res.status(400).json("erreur")
                     }
+
+                    //à supprimer après
+                    console.log('création de compte utilisateur - ok')
+
                     return res.status(201).json({message : 'Votre compte a bien été crée !'},)
                 });
             })
@@ -93,11 +97,14 @@ exports.login = (req, res, next) => {
 /* -- ALL USERS -- */
 
 exports.getAllUsers = (req, res, next) => {
-    //WHERE idMESSAGES < 133 LIMIT 2
-    db.query('SELECT * FROM users  ORDER BY id DESC', (error, result, field) => {
+    db.query('SELECT * FROM users ORDER BY id DESC', (error, result, field) => {
         if (error) {
             return res.status(400).json({ error })
         }
+
+        //cons.log à enlever après
+        console.log('récupération de tous les utilisateurs')
+
         return res.status(200).json(result)
     })
 };

@@ -14,7 +14,7 @@ const apiLimiter = require("./middleware/expressRateLimit");
 const path = require('path'); 
 
 //import des routes
-const postRoutes = require('./routes/posts'); 
+const messageRoutes = require('./routes/message'); 
 const userRoutes = require('./routes/user');
 
 // //logique pour se connecter à mongoDB
@@ -50,7 +50,7 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //le début dela route, ! ATTENTION ! il ne faut pas mettre le point ./api/sauces => error
-app.use('/api/posts', postRoutes); 
+app.use('/api/message', messageRoutes); 
 app.use('/api/auth', userRoutes); 
 
 //export de l'application pour y accéder depuis les autres fichiers, notamment le serveur nodes

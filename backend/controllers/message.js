@@ -13,17 +13,15 @@ const fs = require('fs'); //donne accès aux différentes opérations liées au 
 
 //POST Message
 exports.createMessage = (req, res, next) => {
-    const attachement = req.body.image;
+    const attachement = req.body.attachement;
     const date = new Date();
-    // const currentDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
     const user_id = req.body.user_id;
-  
 
     //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
     //car c'est notre middleware multer qui a généré ce fichier
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
-    console.log("test1: imageUrl" + imageUrl);
+    console.log("imageUrl : " + imageUrl);
 
     const bindings = {
         user_id: user_id,
@@ -32,20 +30,15 @@ exports.createMessage = (req, res, next) => {
         attachement: imageUrl,
         publication: date
     }
-
-    console.log("test2 bindings" + bindings);
-
     const sqlQuery = "INSERT INTO `messages` SET ?"
     const preparedStatement = db.format(sqlQuery, [bindings])
-
     db.query(preparedStatement, (error, result, field) => {
         if (error) {
         return res.status(400).json({ error })
         }
         return res.status(201).json({ message: 'Votre message a été posté !' })
-    
     }) 
-    console.log("test4: insertion commentaire réussie");
+    console.log("insertion commentaire réussie");
      
 };
 
@@ -72,33 +65,36 @@ exports.modifyMessage = (req, res, next) => {
 /* --  DELETE  -- */
 
 exports.deleteMessage = (req, res, next) => {
-   
-    //on supprime d'abord les commentaires du message
-    db.query(
-        'DELETE FROM commentaires WHERE message_id=?', 
-        req.params.id, 
-        (error, result, fields) => {
-            if (error) {
-                return res.status(400).json(error)
-            }
-            //à supprimer apres
-            console.log('suppression des commentaires du message spécifié - ok')
-        }
-    )
-   
-    db.query(
-        'DELETE FROM messages WHERE id=?', 
-        req.params.id, 
-        (error, result, fields) => {
-            if (error) {
-                return res.status(400).json(error)
-            }            
-            //à supprimer apres
-            console.log('suppression d un message spécifique - ok')
+    const filename = message.imageUrl.split('/images/')[1]; 
 
-            return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
-        }
-    )
+    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
+    fs.unlink(`images/${filename}`, () => {
+
+        //on supprime d'abord les commentaires du message
+        db.query(
+            'DELETE FROM commentaires WHERE message_id=?', 
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('suppression des commentaires du message spécifié - ok')
+            }
+        )
+    
+        db.query(
+            'DELETE FROM messages WHERE id=?', 
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }            
+                console.log('suppression d un message spécifique - ok')
+
+                return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+            }
+        )
+    })
 };
 
 
@@ -113,7 +109,6 @@ exports.getOneMessage = (req, res, next) => {
             if (error) {
                 return res.status(400).json({ error })
             }
-            //à supprimer apres
             console.log('récupération d un message spécifique - ok')
 
             return res.status(200).json(result)
@@ -127,7 +122,6 @@ exports.getAllMessages = (req, res, next) => {
         if (error) {
             return res.status(400).json({ error })
         }
-        //à supprimer apres
         console.log('récupération de tous les messages - ok')
 
         return res.status(200).json(result)

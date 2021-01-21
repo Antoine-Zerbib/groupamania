@@ -99,3 +99,19 @@ exports.getAllUsers = (req, res, next) => {
         return res.status(200).json(result)
     })
 };
+
+
+/* -- ONE USER -- */
+
+exports.getOneUser = (req, res, next) => {
+    db.query('SELECT * FROM users WHERE id= ? ', req.params.id, (error, result, field) => {
+        if (error) {
+            return res.status(400).json({ error })
+        }
+
+        //cons.log à enlever après
+        console.log('récupération d un utilisateur')
+
+        return res.status(200).json(result)
+    })
+};

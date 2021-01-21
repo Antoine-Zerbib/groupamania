@@ -11,11 +11,12 @@ du coup on va créer un middleware qui va configurer 'multer' pour lui expliquer
 //import de multer
 const multer = require('multer'); 
 
-// objet avec les 3 différents mime types possible depuis le frontend
+// objet avec les ' 'différents mime types possible depuis le frontend
 const MIME_TYPES = {
     'images/jpg': 'jpg',
     'images/jpeg': 'jpg',
-    'images/png': 'png'
+    'images/png': 'png',
+    'images/gif': 'gif'
 };
 
 //objet de configuration pour multer
@@ -42,6 +43,7 @@ const storage = multer.diskStorage({ // diskStorage : fonction de multer pour en
         callback(null, name + Date.now() + '.' + extension); //Date.now (time stamp)=> à la milliseconde près
 
         //fin de la création d'un nom de fichier suffisament unique pour notre utilisation
+        console.log('image enregistrée dans le dossier "image".');
     }
 })
 

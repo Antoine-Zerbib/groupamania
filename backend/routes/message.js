@@ -9,7 +9,7 @@ const multer = require('../middleware/multer-config');
 //direction, où l'on met le middleware
 
 /* -- messages -- */
-router.put('/:id',  multer, messageCtrl.modifyMessage);
+router.put('/:id',  messageCtrl.modifyMessage);
 router.post('/', multer, messageCtrl.createMessage);
 router.delete('/:id', messageCtrl.deleteMessage);
 router.get('/:id', messageCtrl.getOneMessage);

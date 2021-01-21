@@ -23,73 +23,64 @@ dotenv.config({path: './.env'});
 //     });
 // };
 
+
+
 /* -- SIGNUP -- */
 
 exports.signup = (req, res, next) => {
     const password = req.body.password; 
     bcrypt.hash(password, 10)
-        .then(hash => {
-                password = hash 
-                db.query(`INSERT INTO users SET ?`, users, (err, result, field) => {
-                    if (err) {
-                        console.log(err)
-                        return res.status(400).json("erreur")
-                    }
-
-                    //à supprimer après
-                    console.log('création de compte utilisateur - ok')
-
-                    return res.status(201).json({message : 'Votre compte a bien été crée !'},)
-                });
-            })
-        .catch(error => res.status(500).json({ error }));
+        .then(hash => {   
+            const sqlQuery = "INSERT INTO `users` SET ?"
+            const bindings = {
+                login:req.body.login,
+                email:req.body.email,
+                password : hash 
+            } 
+            const preparedUserInfo = db.format(sqlQuery, [bindings])
+            db.query(preparedUserInfo, (error, result, field) => {
+                if (error) {
+                    console.log(error)
+                    return res.status(400).json("erreur")
+                }
+                console.log('création de compte utilisateur - ok')
+                return res.status(201).json({message : 'Votre compte a bien été crée !'},)
+            });
+        })
+        .catch(error => res.status(500).json({ error })
+    );
 };
+
 
 
 /* -- LOGIN -- */
 
 exports.login = (req, res, next) => {
-
-    //trouver User dans la base de données (adresse e-mail rentrée par l'utilisateur)
-    User.findOne({ email: req.body.email })
-        .then(user => {
-
-            //si on a pas trouvé de user
-            if(!user){
-                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-            }
-
-            //utilisation de bcrypt pour comparer les mdp
-            bcrypt.compare(req.body.password, user.password)
-                .then(valid => {
-
-                    // si c'est faux, error
-                    if (!valid){
-                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
-                    }
-
-                    //si c'est vrai, renvoyer un user id et un token
-                    res.status(200).json({
-                        userId: user._id,
-
-                        //utilisation de jwt => permet de creer des tokens et les vérifier
-                        /*'TOKEN'*/ //au lieu d'une simple chaine de caractères, on va appeler une fonction
-                        token: jwt.sign(
-
-                            //les données que l'on veut encoder dans le token (payLoad)
-                            { userId: user._id },
-
-                            // clef secrète pour le codage créée par jwt caché en gitignore dans '.env'
-                            'env.TOKEN_USER',
-
-                            //argument de configuration
-                            { expiresIn: '24h'}
-                        )
-                    });
-                })
-                .catch(error => res.status(500).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+    const login = req.body.login
+    const password = req.body.password
+    db.query(
+        'SELECT * FROM users WHERE login= ?',
+        login, 
+        (error, results, _fields) => {
+            console.log(results[0])
+            if (results.length > 0) {
+                bcrypt.compare(password, results[0].password).then((valid) => {
+                    if (!valid) {
+                        res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu' })
+                    } else {
+                        console.log(login, "s'est connecté")
+                        res.status(200).json({
+                        user_id: results[0].id,
+                        token: jwt.sign({ user_id: results[0].id },process.env.TOKEN_USER,{ expiresIn: '24h' }),
+                    })
+                }
+            })
+            console.log('apres ligne 78')
+        } 
+       else {
+            res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu' })
+       }
+    })
 };
 
 

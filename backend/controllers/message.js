@@ -3,15 +3,13 @@ const db = require('../mysqlConnect');//Configuration information de connections
 const dotenv = require("dotenv");
 dotenv.config({ path: './.env' });
 
-//encodage et stockage des images
-const base64ImageToFile = require('base64image-to-file');
-
 //import du package fs de nodes
 const fs = require('fs'); //donne accès aux différentes opérations liées au système de fichier
 
 
 
-//POST Message
+/* --  CREATE  -- */
+
 exports.createMessage = (req, res, next) => {
     const attachement = req.body.attachement;
     const date = new Date();
@@ -20,9 +18,7 @@ exports.createMessage = (req, res, next) => {
     //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
     //car c'est notre middleware multer qui a généré ce fichier
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-
     console.log("imageUrl : " + imageUrl);
-
     const bindings = {
         user_id: user_id,
         title: req.body.title,
@@ -45,7 +41,6 @@ exports.createMessage = (req, res, next) => {
 /* --  MODIFY  -- */
 
 exports.modifyMessage = (req, res, next) => {
-    
     const content = req.body.content
     const id = req.body.id
     console.log(content)
@@ -90,7 +85,6 @@ exports.deleteMessage = (req, res, next) => {
                     return res.status(400).json(error)
                 }            
                 console.log('suppression d un message spécifique - ok')
-
                 return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
             }
         )
@@ -110,7 +104,6 @@ exports.getOneMessage = (req, res, next) => {
                 return res.status(400).json({ error })
             }
             console.log('récupération d un message spécifique - ok')
-
             return res.status(200).json(result)
         }
     )
@@ -123,7 +116,6 @@ exports.getAllMessages = (req, res, next) => {
             return res.status(400).json({ error })
         }
         console.log('récupération de tous les messages - ok')
-
         return res.status(200).json(result)
     })
 };

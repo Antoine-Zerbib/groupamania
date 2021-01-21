@@ -6,8 +6,6 @@ const auth = require('../middleware/auth');
 //import multer pour sauvegarder l'image, attention à bien le mettre apres 'auth'
 const multer = require('../middleware/multer-config');
 
-//direction, où l'on met le middleware
-
 /* -- messages -- */
 router.put('/:id', auth, messageCtrl.modifyMessage);
 router.post('/', auth, multer, messageCtrl.createMessage);

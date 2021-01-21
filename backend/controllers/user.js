@@ -1,27 +1,11 @@
-//package de cryptage pour les mots de passe
 const bcrypt = require('bcrypt');
 
 //package qui permet de creer des tokens et les vérifier
 const jwt = require('jsonwebtoken');
-
 const db = require('../mysqlConnect');
 const dotenv = require("dotenv");
 dotenv.config({path: './.env'});
 
-
-
-/* -- CREATION TABLE USER -- */
-
-
-// //Création de la table user 
-// exports.createUsersTable = (req, res) => {
-//     let usr = 'CREATE TABLE IF NOT EXISTS `groupomania`.`users` ( `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, `login` VARCHAR(10) NOT NULL, `password` VARCHAR(255) NOT NULL, `email` VARBINARY(50) NOT NULL, PRIMARY KEY (`id`, `email`), UNIQUE INDEX `ind_uni_email` (`email` ASC) VISIBLE, UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE) ENGINE = InnoDB AUTO_INCREMENT = 2  DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-//     db.query(usr, (err, result) => {
-//         if (err) throw err
-//         console.log(result)
-//         res.send('table created !')
-//     });
-// };
 
 
 
@@ -75,7 +59,6 @@ exports.login = (req, res, next) => {
                     })
                 }
             })
-            console.log('apres ligne 78')
         } 
        else {
             res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu' })
@@ -92,10 +75,7 @@ exports.getAllUsers = (req, res, next) => {
         if (error) {
             return res.status(400).json({ error })
         }
-
-        //cons.log à enlever après
         console.log('récupération de tous les utilisateurs')
-
         return res.status(200).json(result)
     })
 };
@@ -108,10 +88,7 @@ exports.getOneUser = (req, res, next) => {
         if (error) {
             return res.status(400).json({ error })
         }
-
-        //cons.log à enlever après
         console.log('récupération d un utilisateur')
-
         return res.status(200).json(result)
     })
 };

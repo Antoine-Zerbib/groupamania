@@ -1,7 +1,6 @@
 //import des packages
 const express = require('express');
 const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
 
 //Pluggin dotenv => .config pour dire qu'on l'utilise, pas besoin de constante
 require('dotenv').config();
@@ -17,15 +16,6 @@ const path = require('path');
 const messageRoutes = require('./routes/message'); 
 const userRoutes = require('./routes/user');
 const commentaireRoutes = require('./routes/commentaire'); 
-
-// //logique pour se connecter à mongoDB
-// //pluggin dotenv va chercher l'url mongo dans le fichier '.env'
-// //(utiliser MONGO_URL_USER ou MONGO_URL_ADMIN)
-// mongoose.connect(process.env.MONGO_URL_USER,
-//   { useNewUrlParser: true,
-//     useUnifiedTopology: true })
-//   .then(() => console.log('Connexion à MongoDB réussie !'))
-//   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 //création de l'application (vide) qui va appeler la methode express => application express
 const app = express();

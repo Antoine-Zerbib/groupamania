@@ -14,7 +14,7 @@ exports.createMessage = (req, res, next) => {
     const attachement = req.body.attachement;
     const date = new Date();
     const user_id = req.body.user_id;
-
+    console.log("test1");
     //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
     //car c'est notre middleware multer qui a généré ce fichier
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -34,19 +34,17 @@ exports.createMessage = (req, res, next) => {
         }
         return res.status(201).json({ message: 'Votre message a été posté !' })
     }) 
-    console.log("insertion commentaire réussie");
-     
+    console.log("insertion message réussie");
 };
 
 /* --  MODIFY  -- */
 
 exports.modifyMessage = (req, res, next) => {
     const content = req.body.content
-    const id = req.body.id
-    console.log(content)
-    console.log(id)
-        db.query(
-        `UPDATE messages SET content='${content}' WHERE id=${id}`,
+    const id = req.params.id
+    console.log('nouveau texte "' + content + '" pour le message ' + id)
+    db.query(
+        `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
         (error, results, fields) => {
             if (error) {
             return res.status(400).json(error)
@@ -54,6 +52,7 @@ exports.modifyMessage = (req, res, next) => {
             return res.status(200).json({ message: 'Votre message a bien été modifié !' })
         } 
     )
+    console.log("modification message numero " + id + " - ok");
 };
 
 

@@ -29,19 +29,19 @@ exports.createCommentaire = (req, res, next) => {
 
 exports.modifyCommentaire = (req, res, next) => {
     const content = req.body.content
-    const id = req.body.id
-    console.log(content)
-    console.log(id)
-        db.query(
-        `UPDATE commentaires SET content='${content}' WHERE id=${id}`,
+    const id = req.params.id
+    console.log('nouveau texte "' + content + '" pour le commentaire ' + id)
+    db.query(
+        `UPDATE commentaires SET content= ? WHERE id= ?`,
+        [ content, id ],
         (error, results, fields) => {
             if (error) {
             return res.status(400).json(error)
             }
-            console.log('modification dun commentaire - ok')
             return res.status(200).json({ message: 'Votre message a bien été modifié !' })
         } 
     )
+    console.log("modification commentaire numero " + id + " - ok");
 };
 
 

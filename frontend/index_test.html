@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Mon Application Vue.js</title>
+</head>
+<body>
+    <div id="app">
+        <h1>VueMart</h1>
+        
+        <h2>Panier</h2>
+        <ul>
+          <li>Pommes: {{ costOfApples }}€</li>
+          <li>Bananes: {{ costOfBananas }}€</li>
+          <li>Noix de coco: {{ costOfCoconuts }}€</li>
+        </ul>
+        <p>Total: {{ totalAmount }}€</li>
+    
+        <h2>Horaires d'ouverture</h2>
+        <p>Dimanche: 10h - 16h</p>
+        <p>Du lundi au vendredi: 09h - 17h</p>
+        <p>Samesi: 09h30 - 18h00</p>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0">
+        </script>
+    <script>
+        console.log('connecté à vue.js')
+        
+        const app = new Vue({
+            el: '#app',//selecteur id 
+            data: {
+                costOfApples: 6,
+                costOfBananas: 2,
+                costOfCoconuts: 8
+            },
+            computed: {
+                totalAmount() {
+                    return this.costOfApples + this.costOfBananas + this.costOfCoconuts
+                }
+            }
+        })
+    </script>
+</body>
+</html>

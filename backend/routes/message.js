@@ -9,7 +9,7 @@ const multer = require('../middleware/multer-config');
 /* -- messages -- */
 router.put('/:id',  messageCtrl.modifyMessage);
 router.post('/', multer, messageCtrl.createMessage);
-router.delete('/:id', auth, messageCtrl.deleteMessage);
+router.delete('/:id',  messageCtrl.deleteMessage);
 router.get('/:id', auth, messageCtrl.getOneMessage);
 router.get('/', auth, messageCtrl.getAllMessages);
 

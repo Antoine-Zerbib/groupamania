@@ -11,20 +11,18 @@ const fs = require('fs'); //donne accès aux différentes opérations liées au 
 /* --  CREATE  -- */
 
 exports.createMessage = (req, res, next) => {
-    const attachement = req.body.attachement;
-    const date = new Date();
-    const user_id = req.body.user_id;
-    console.log("test1");
+    console.log("début création message");
+
     //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
     //car c'est notre middleware multer qui a généré ce fichier
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     console.log("imageUrl : " + imageUrl);
     const bindings = {
-        user_id: user_id,
+        user_id: req.body.user_id,
         title: req.body.title,
         content: req.body.content,
         attachement: imageUrl,
-        publication: date
+        publication: new Date()
     }
     const sqlQuery = "INSERT INTO `messages` SET ?"
     const preparedStatement = db.format(sqlQuery, [bindings])
@@ -36,6 +34,7 @@ exports.createMessage = (req, res, next) => {
     }) 
     console.log("insertion message réussie");
 };
+
 
 /* --  MODIFY  -- */
 

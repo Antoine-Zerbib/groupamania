@@ -19,13 +19,17 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({ 
     destination: (req, file, callback) => { 
         callback(null, 'images') 
+        console.log('destination multer')
     },
     filename: (req, file, callback) => {
+        console.log('filename multer')
+
         const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimitype]; 
         callback(null, name + Date.now() + '.' + extension); 
-        console.log('image enregistrée dans le dossier "image".');
+        
     }
 })
 
 module.exports = multer({ storage }).single('image');
+

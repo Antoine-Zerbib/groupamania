@@ -58,7 +58,19 @@ exports.modifyMessage = (req, res, next) => {
 /* --  DELETE  -- */
 
 exports.deleteMessage = (req, res, next) => {
-    const filename = message.imageUrl.split('/images/')[1]; 
+    filename = (req, res, next) => {
+        //récupération de l'Url de l'image à supprimer
+        db.query(
+            'SELECT imageUrl FROM messages WHERE id=? ',
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('suppression des commentaires du message spécifié - ok')
+            }
+        )
+    }
 
     // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
     fs.unlink(`images/${filename}`, () => {
@@ -74,7 +86,8 @@ exports.deleteMessage = (req, res, next) => {
                 console.log('suppression des commentaires du message spécifié - ok')
             }
         )
-    
+        
+        //enfin on supprime le message
         db.query(
             'DELETE FROM messages WHERE id=?', 
             req.params.id, 

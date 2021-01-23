@@ -18,8 +18,7 @@ exports.createMessage = (req, res, next) => {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     console.log("imageUrl : " + imageUrl);
     const bindings = {
-        user_id: req.body.user_id,
-        title: req.body.title,
+        user_id: req.body.id,
         content: req.body.content,
         attachement: imageUrl,
         publication: new Date()

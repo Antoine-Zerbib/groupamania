@@ -13,11 +13,12 @@ dotenv.config({path: './.env'});
 
 exports.signup = (req, res, next) => {
     const password = req.body.password; 
+    const username = req.body.username;
     bcrypt.hash(password, 10)
         .then(hash => {   
             const sqlQuery = "INSERT INTO `users` SET ?"
             const bindings = {
-                login:req.body.login,
+                username:username,
                 email:req.body.email,
                 password : hash 
             } 
@@ -28,6 +29,7 @@ exports.signup = (req, res, next) => {
                     return res.status(400).json("erreur")
                 }
                 console.log('création de compte utilisateur - ok')
+                console.log(username, "s'est connecté")
                 return res.status(201).json({message : 'Votre compte a bien été crée !'},)
             });
         })
@@ -40,11 +42,11 @@ exports.signup = (req, res, next) => {
 /* -- LOGIN -- */
 
 exports.login = (req, res, next) => {
-    const login = req.body.login
     const password = req.body.password
+    const username = req.body.username;
     db.query(
-        'SELECT * FROM users WHERE login= ?',
-        login, 
+        'SELECT * FROM users WHERE username= ?',
+        username, 
         (error, results, _fields) => {
             console.log(results[0])
             if (results.length > 0) {
@@ -52,7 +54,7 @@ exports.login = (req, res, next) => {
                     if (!valid) {
                         res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu' })
                     } else {
-                        console.log(login, "s'est connecté")
+                        console.log(username, "s'est connecté")
                         res.status(200).json({
                         user_id: results[0].id,
                         token: jwt.sign({ user_id: results[0].id },process.env.TOKEN_USER,{ expiresIn: '24h' }),
@@ -68,23 +70,23 @@ exports.login = (req, res, next) => {
 
 
 
-/* -- ALL USERS -- */
+// /* -- ALL USERS -- */
 
-exports.getAllUsers = (req, res, next) => {
-    db.query('SELECT * FROM users ORDER BY id DESC', (error, result, field) => {
-        if (error) {
-            return res.status(400).json({ error })
-        }
-        console.log('récupération de tous les utilisateurs')
-        return res.status(200).json(result)
-    })
-};
+// exports.getAllUsers = (req, res, next) => {
+//     db.query('SELECT * FROM users ORDER BY id DESC', (error, result, field) => {
+//         if (error) {
+//             return res.status(400).json({ error })
+//         }
+//         console.log('récupération de tous les utilisateurs')
+//         return res.status(200).json(result)
+//     })
+// };
 
 
 /* -- ONE USER -- */
 
 exports.getOneUser = (req, res, next) => {
-    db.query('SELECT * FROM users WHERE id= ? ', req.params.id, (error, result, field) => {
+    db.query('SELECT * FROM users WHERE id= ? ', req.body.id, (error, result, field) => {
         if (error) {
             return res.status(400).json({ error })
         }

@@ -37,21 +37,21 @@ exports.createMessage = (req, res, next) => {
 
 /* --  MODIFY  -- */
 
-exports.modifyMessage = (req, res, next) => {
-    const content = req.body.content
-    const id = req.params.id
-    console.log('nouveau texte "' + content + '" pour le message ' + id)
-    db.query(
-        `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
-        (error, results, fields) => {
-            if (error) {
-            return res.status(400).json(error)
-            }
-            return res.status(200).json({ message: 'Votre message a bien été modifié !' })
-        } 
-    )
-    console.log("modification message numero " + id + " - ok");
-};
+// exports.modifyMessage = (req, res, next) => {
+//     const content = req.body.content
+//     const id = req.params.id
+//     console.log('nouveau texte "' + content + '" pour le message ' + id)
+//     db.query(
+//         `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
+//         (error, results, fields) => {
+//             if (error) {
+//             return res.status(400).json(error)
+//             }
+//             return res.status(200).json({ message: 'Votre message a bien été modifié !' })
+//         } 
+//     )
+//     console.log("modification message numero " + id + " - ok");
+// };
 
 
 /* --  DELETE  -- */
@@ -66,7 +66,7 @@ exports.deleteMessage = (req, res, next) => {
                 if (error) {
                     return res.status(400).json(error)
                 }
-                console.log('suppression des commentaires du message spécifié - ok')
+                console.log('sélection de l image à supprimer')
             }
         )
     }
@@ -74,19 +74,6 @@ exports.deleteMessage = (req, res, next) => {
     // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
     fs.unlink(`images/${filename}`, () => {
 
-        //on supprime d'abord les commentaires du message
-        db.query(
-            'DELETE FROM commentaires WHERE message_id=?', 
-            req.params.id, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('suppression des commentaires du message spécifié - ok')
-            }
-        )
-        
-        //enfin on supprime le message
         db.query(
             'DELETE FROM messages WHERE id=?', 
             req.params.id, 
@@ -129,4 +116,3 @@ exports.getAllMessages = (req, res, next) => {
         return res.status(200).json(result)
     })
 };
-

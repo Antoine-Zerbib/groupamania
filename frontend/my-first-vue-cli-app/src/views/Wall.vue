@@ -35,9 +35,9 @@ export default {
     }
   },
   mounted() {
-    console.log('token de session : '+localStorage.getItem("token"))
-    axios
-      .get("http://localhost:3000/api/message", {
+      const idGet = localStorage.getItem('id')    
+      axios
+      .get("http://localhost:3000/api/message/" + idGet, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }

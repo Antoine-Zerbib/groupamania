@@ -54,28 +54,30 @@ export default {
     createPost() {
       console.log(this.contentPost);
       const fd = new FormData();
-      fd.append("inputFile", this.contentPost.postImage);
+      fd.append("image", this.contentPost.postImage);
       fd.append("content", this.contentPost.content);
-      console.log("test récup", fd.get("inputFile"));
+      fd.append("id", window.localStorage.getItem("id"));
+      console.log("test récup", fd.get("image"));
       console.log("test récup", fd.get("content"));
-      if (fd.get("inputFile") == "null" && fd.get("content") == "null") {
+      if (fd.get("image") == "null" && fd.get("content") == "null") {
         let msgReturn = document.getElementById('msgReturnAPI')
         msgReturn.classList.add('text-danger')
         this.msgError = "Rien à publier";
       } else {
         axios
-          .post("http://localhost:3000/api/message/", fd, {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token")
-            }
-          })
-          .then(response => {
-            //Si retour positif de l'API reload de la page pour affichage du dernier post
-            if (response) {
-              window.location.reload();
-            }
-          })
-          .catch(error => (this.msgError = error));
+        .post("http://localhost:3000/api/message/", fd,{
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token")
+          }
+        })
+        .then(response => {
+
+          //Si retour positif de l'API reload de la page pour affichage du dernier post
+          if (response) {
+            window.location.reload();
+          }
+        })
+        .catch(error => (this.msgError = error));
       }
     },
     onFileChange(e) {

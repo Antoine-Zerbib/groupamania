@@ -29,6 +29,7 @@
             id="inputPassword"
             v-model="dataSignup.password"
           />
+          <p>Obligatoire : une masjucule, un chiffre, un symbole et 8 caractères</p>
         </div>
         <button @click.prevent="sendSignup" type="submit" class="btn btn-primary">Submit</button>
       </div>
@@ -63,7 +64,7 @@ export default {
       if (
         (this.dataSignup.email !== null ||
         this.dataSignup.username !== null ||
-        this.dataSignup.password !== null) ||
+        this.dataSignup.password !== null) &&
         (regexPassword.test(this.dataSignup.password) && regexEmail.test(this.dataSignup.email) && usernameRegex.test(this.dataSignup.username))
       ) {
         axios

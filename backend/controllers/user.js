@@ -81,6 +81,57 @@ exports.getOneUser = (req, res, next) => {
 };
 
 
+/* --  DELETE  -- */
+
+
+exports.deleteUser = (req, res, next) => {
+
+    filename = (req, res, next) => {
+        
+        //récupération de l'Url de l'image à supprimer
+        db.query(
+            'SELECT imageUrl FROM messages WHERE user_id=? ',
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('sélection des url images pour suppression')
+            }
+        )
+    }
+
+    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
+    fs.unlink(`images/${filename}`, () => {
+
+        //on supprime d'abord les messages
+        db.query(
+            'DELETE FROM messages WHERE user_id=?', 
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('suppression des messages de l utilisateur')
+            }
+        )
+        
+        //enfin on supprime l utilisateur
+        db.query(
+            'DELETE FROM users WHERE id=?', 
+            req.params.id, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }            
+                console.log('suppression d un message spécifique - ok')
+                return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+            }
+        )
+    })
+};
+
+
 
 // /* -- ALL USERS -- */
 
@@ -99,78 +150,4 @@ exports.getOneUser = (req, res, next) => {
 
 
 
-/* --  DELETE  -- */
 
-//  !!! ne marche pas !!!
-
-exports.deleteUser = (req, res, next) => {
-    const idUser = req.body.id;
-    id_files = (req, res, next) => {
-        db.query(
-            'SELECT id FROM messages WHERE id_user= ? ',
-            idUser, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('sélection des message_id à supprimer')
-                console.log(response)
-            }
-        )
-    }
-
-    filenames = (req, res, next) => {
-        //récupération des l'Url des images à supprimer
-        db.query(
-            'SELECT imageUrl FROM messages WHERE id=? ',
-            id_files, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('suppression des commentaires du message spécifié - ok')
-            }
-        )
-    }
-
-    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
-    fs.unlink(`images/${filenames}`, () => {
-
-        //on supprime d'abord les commentaires du message
-        db.query(
-            'DELETE FROM commentaires WHERE message_id=?', 
-            id_files, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('suppression des commentaires du message spécifié - ok')
-            }
-        )
-        
-        //enfin on supprime le message
-        db.query(
-            'DELETE FROM messages WHERE id=?', 
-            id_files, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }            
-                console.log('suppression d un message spécifique - ok')
-            }
-        )
-
-        //enfin on supprime l'utilisateur
-        db.query(
-            'DELETE FROM users WHERE id=?', 
-            idUser, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }            
-                console.log('suppression d un user spécifique - ok')
-                return res.status(200).json({ message: 'Votre user a bien été supprimé !' })
-            }
-        )
-    })
-};

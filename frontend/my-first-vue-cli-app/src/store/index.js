@@ -29,8 +29,10 @@ export default new Vuex.Store({
   },
   actions: {
     getUserInfos(context) {
+      const idGet = localStorage.getItem('id')
+      console.log(idGet)
       axios
-        .get("http://localhost:3000/api/auth/",  {
+        .get("http://localhost:3000/api/auth/"+idGet,{
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }

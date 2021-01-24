@@ -19,6 +19,7 @@ exports.createMessage = (req, res, next) => {
     console.log("imageUrl : " + imageUrl);
     const bindings = {
         user_id: req.body.id,
+        title:req.body.title,
         content: req.body.content,
         attachement: imageUrl,
         publication: new Date()

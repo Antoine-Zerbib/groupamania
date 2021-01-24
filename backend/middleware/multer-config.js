@@ -10,7 +10,12 @@ du coup on va créer un middleware qui va configurer 'multer' pour lui expliquer
 
 //import de multer
 const multer = require('multer'); 
-const MIME_TYPES = { 'images/gif': 'gif,'};
+const MIME_TYPES = {
+    'images/gif': 'gif,',
+    'images/jpg': 'jpg',
+    'images/jpeg': 'jpg',
+    'images/png': 'png'    
+};
 const storage = multer.diskStorage({ 
     destination: (req, file, callback) => { 
         callback(null, 'images') 

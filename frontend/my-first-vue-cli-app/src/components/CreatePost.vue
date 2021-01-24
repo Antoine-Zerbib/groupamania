@@ -1,12 +1,17 @@
 <template>
   <div>
     <div class="block-post">
-      <h3>Créer un post</h3>
+      <h3>Créer un article</h3>
       <form enctype="multipart/form-data" action="/create" method="post">
         <div class="input-group mb-3">
-          <label for="input_text">Partagez votre bonne humeur :</label>
+          <label for="input_text">Titre :</label>
           <br />
-          <input v-model="contentPost.content" class="input-text" id="input_text" type="text" />
+          <input v-model="contentPost.title" class="input-text" id="input_text" type="text" />
+        </div>
+        <div class="input-group mb-3">
+          <label for="input_text">Article :</label>
+          <br />
+          <input v-model="contentPost.content" class="input-text" id="input_titre" type="text" />
         </div>
 
         <div class="input-group mb-3">
@@ -41,6 +46,7 @@ export default {
   data() {
     return {
       contentPost: {
+        title:null,
         content: null,
         postImage: null
       },
@@ -55,6 +61,7 @@ export default {
       console.log(this.contentPost);
       const fd = new FormData();
       fd.append("image", this.contentPost.postImage);
+      fd.append("title", this.contentPost.title);
       fd.append("content", this.contentPost.content);
       fd.append("id", window.localStorage.getItem("id"));
       console.log("test récup", fd.get("image"));
@@ -67,7 +74,7 @@ export default {
         axios
         .post("http://localhost:3000/api/message/", fd,{
           headers: {
-            'Authorization': 'Bearer' + localStorage.getItem("token")
+            'Authorization': "Bearer " + window.localStorage.getItem("token")
           }
         })
         .then(response => {

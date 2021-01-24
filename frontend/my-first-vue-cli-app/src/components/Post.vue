@@ -39,11 +39,11 @@
       </div>
     </div>
     <div class="card-body">
-      <!-- <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
+      <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
         <img :src="post.attachement" alt="..." class="w-100" />
-      </div> -->
-         <div class="card-title w-75 mx-auto" v-if="post.title">
-        <img :src="post.title" alt="..." class="w-100" />
+      </div>
+      <div class="card-title"  v-if="post.content!=='null'">
+        <strong><p class="mb-0">{{post.title}}</p></strong>
       </div>
       <div class="card-text" v-if="post.content!=='null'">
         <p class="mb-0">{{post.content}}</p>

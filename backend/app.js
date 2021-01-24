@@ -42,7 +42,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //le début dela route, ! ATTENTION ! il ne faut pas mettre le point ./api/sauces => error
 app.use('/api/message', messageRoutes); 
-app.use('/api/auth', userRoutes); 
+app.use('/api/user', userRoutes); 
 // app.use('/api/commentaire', commentaireRoutes); 
 
 //export de l'application pour y accéder depuis les autres fichiers, notamment le serveur nodes

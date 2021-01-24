@@ -67,7 +67,7 @@ export default {
         axios
         .post("http://localhost:3000/api/message/", fd,{
           headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token")
+            'Authorization': 'Bearer' + localStorage.getItem("token")
           }
         })
         .then(response => {

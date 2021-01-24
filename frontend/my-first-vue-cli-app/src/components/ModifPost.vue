@@ -83,7 +83,7 @@ export default {
       axios
         .delete("http://localhost:3000/api/message/", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
+            'Authorization': 'Bearer' + localStorage.getItem("token")
           },
           data: {
             postId: this.post.id,
@@ -116,7 +116,7 @@ export default {
             },
             {
               headers: {
-                authorization: "Bearer " + localStorage.getItem("token")
+                'Authorization': 'Bearer' + localStorage.getItem("token")
               }
             }
           )
@@ -143,7 +143,7 @@ export default {
             },
             {
               headers: {
-                authorization: "Bearer " + localStorage.getItem("token")
+                'Authorization': 'Bearer' + localStorage.getItem("token")
               }
             }
           )

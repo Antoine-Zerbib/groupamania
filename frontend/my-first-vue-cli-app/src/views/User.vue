@@ -125,9 +125,9 @@ export default {
     deleteAccount() {
       const idDel = localStorage.getItem('id')
       axios
-        .delete("http://localhost:3000/api/auth/"+idDel, {
+        .delete("http://localhost:3000/api/user/"+idDel, {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
+            'Authorization': 'Bearer' + localStorage.getItem("token")
           }
         })
         .then(() => {
@@ -147,13 +147,13 @@ export default {
         const idUp = localStorage.getItem('id')
         axios
           .put(
-            "http://localhost:3000/api/auth/"+idUp,
+            "http://localhost:3000/api/user/"+idUp,
             {
               newPassword: this.changePwd.newPassword
             },
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token")
+                'Authorization': 'Bearer' + localStorage.getItem("token")
               }
             }
           )

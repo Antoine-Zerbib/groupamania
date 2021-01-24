@@ -38,7 +38,7 @@ export default {
       axios
       .get("http://localhost:3000/api/message/", {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
+          'Authorization': 'Bearer' + localStorage.getItem("token")
         }
       })
       //.get("http://localhost:3000/api/post",this.$store.state.headerParams)

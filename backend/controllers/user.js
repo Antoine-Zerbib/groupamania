@@ -87,7 +87,7 @@ exports.getOneUser = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
 
     filename = (req, res, next) => {
-        
+
         //récupération de l'Url de l'image à supprimer
         db.query(
             'SELECT imageUrl FROM messages WHERE user_id=? ',
@@ -131,6 +131,22 @@ exports.deleteUser = (req, res, next) => {
     })
 };
 
+
+// exports.modifyUser = (req, res, next) => {
+//     const content = req.body.content
+//     const id = req.params.id
+//     console.log('nouveau texte "' + content + '" pour le message ' + id)
+//     db.query(
+//         `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
+//         (error, results, fields) => {
+//             if (error) {
+//             return res.status(400).json(error)
+//             }
+//             return res.status(200).json({ message: 'Votre message a bien été modifié !' })
+//         } 
+//     )
+//     console.log("modification message numero " + id + " - ok");
+// };
 
 
 // /* -- ALL USERS -- */

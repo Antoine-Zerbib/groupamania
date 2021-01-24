@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-4 w-75 mx-auto">
     <div class="card-header d-flex justify-content-between">
-      <div>Post by <em class="text-secondary">{{post.user_id}}</em> le <em class="text-secondary">{{post.publication.split(' ')[0]}}</em> à <em class="text-secondary">{{post.publication.split(' ')[1]}}</em></div>
+      <div>Post by <em class="text-secondary">{{post.user_id}}</em> le <em class="text-secondary">{{post.publication.split('T')[0]}}</em> à <em class="text-secondary">{{post.publication.split('T')[1]}}</em></div>
       <div class="dropdown" v-if="user.isAdmin==true || user.id == post.user_id">
         <svg
           class="bi bi-three-dots dropdown-toggle"
@@ -39,8 +39,11 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
+      <!-- <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
         <img :src="post.attachement" alt="..." class="w-100" />
+      </div> -->
+         <div class="card-title w-75 mx-auto" v-if="post.title">
+        <img :src="post.title" alt="..." class="w-100" />
       </div>
       <div class="card-text" v-if="post.content!=='null'">
         <p class="mb-0">{{post.content}}</p>

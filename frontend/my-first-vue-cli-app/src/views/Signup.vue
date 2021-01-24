@@ -68,7 +68,7 @@ export default {
         (regexPassword.test(this.dataSignup.password) && regexEmail.test(this.dataSignup.email) && usernameRegex.test(this.dataSignup.username))
       ) {
         axios
-          .post("http://localhost:3000/api/auth/signup", this.dataSignup)
+          .post("http://localhost:3000/api/user/signup", this.dataSignup)
           .then(response => {
             console.log('data response au signup : ');
             console.log( response );

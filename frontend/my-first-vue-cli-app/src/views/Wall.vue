@@ -34,10 +34,9 @@ export default {
       this.post = payload.post;
     }
   },
-  mounted() {
-      const idGet = localStorage.getItem('id')    
+  mounted() {  
       axios
-      .get("http://localhost:3000/api/message/" + idGet, {
+      .get("http://localhost:3000/api/message/", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }

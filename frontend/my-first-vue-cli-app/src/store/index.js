@@ -30,7 +30,7 @@ export default new Vuex.Store({
   actions: {
     getUserInfos(context) {
       axios
-        .get("http://localhost:3000/api/auth/me", {
+        .get("http://localhost:3000/api/auth/",  {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }

@@ -35,6 +35,7 @@ export default {
     }
   },
   mounted() {
+    console.log('token de session : '+localStorage.getItem("token"))
     axios
       .get("http://localhost:3000/api/message", {
         headers: {

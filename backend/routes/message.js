@@ -11,6 +11,6 @@ router.put('/:id', auth, messageCtrl.modifyMessage);
 router.post('/', auth, multer, messageCtrl.createMessage);
 router.delete('/:id', auth, messageCtrl.deleteMessage);
 router.get('/:id', auth, messageCtrl.getOneMessage);
-router.get('/', auth, messageCtrl.getAllMessages);
+router.get('/',  messageCtrl.getAllMessages);
 
 module.exports = router;

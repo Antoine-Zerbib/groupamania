@@ -71,6 +71,7 @@ export default {
           .then(response => {
             console.log('data response au signup : ');
             console.log( response );
+            location.replace(location.origin)
 
             //Réinitialisation
             this.dataSignup.email = null;

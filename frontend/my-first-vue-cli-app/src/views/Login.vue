@@ -60,6 +60,7 @@ export default {
           .post("http://localhost:3000/api/auth/login", this.dataLogin)
           .then(response => {
             localStorage.setItem('token',response.data.token)
+            localStorage.setItem('id',response.data.id)
             location.replace(location.origin)
           })
           .catch(error => console.log(error));

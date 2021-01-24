@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../mysqlConnect');
 const dotenv = require("dotenv");
 dotenv.config({path: './.env'});
-
+const fs = require('fs'); 
 
 
 
@@ -28,8 +28,7 @@ exports.signup = (req, res, next) => {
                     console.log(error)
                     return res.status(400).json("erreur")
                 }
-                console.log('création de compte utilisateur - ok')
-                console.log(username, "s'est connecté")
+                console.log('création de compte utilisateur : ' + username)
                 return res.status(201).json({message : 'Votre compte a bien été crée !'},)
             });
         })
@@ -56,7 +55,7 @@ exports.login = (req, res, next) => {
                     } else {
                         console.log(username, "s'est connecté")
                         res.status(200).json({
-                        user_id: results[0].id,
+                        id: results[0].id,
                         token: jwt.sign({ user_id: results[0].id },process.env.TOKEN_USER,{ expiresIn: '24h' }),
                     })
                 }
@@ -86,11 +85,89 @@ exports.login = (req, res, next) => {
 /* -- ONE USER -- */
 
 exports.getOneUser = (req, res, next) => {
-    db.query('SELECT * FROM users WHERE id= ? ', req.body.id, (error, result, field) => {
+    db.query('SELECT * FROM users WHERE id= ? ', id, (error, result, field) => {
         if (error) {
             return res.status(400).json({ error })
         }
         console.log('récupération d un utilisateur')
         return res.status(200).json(result)
+    })
+};
+
+
+
+/* --  DELETE  -- */
+
+//  !!! ne marche pas !!!
+
+exports.deleteUser = (req, res, next) => {
+    const idUser = req.body.id;
+    id_files = (req, res, next) => {
+        db.query(
+            'SELECT id FROM messages WHERE id_user= ? ',
+            idUser, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('sélection des message_id à supprimer')
+                console.log(response)
+            }
+        )
+    }
+
+    filenames = (req, res, next) => {
+        //récupération des l'Url des images à supprimer
+        db.query(
+            'SELECT imageUrl FROM messages WHERE id=? ',
+            id_files, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('suppression des commentaires du message spécifié - ok')
+            }
+        )
+    }
+
+    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
+    fs.unlink(`images/${filenames}`, () => {
+
+        //on supprime d'abord les commentaires du message
+        db.query(
+            'DELETE FROM commentaires WHERE message_id=?', 
+            id_files, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }
+                console.log('suppression des commentaires du message spécifié - ok')
+            }
+        )
+        
+        //enfin on supprime le message
+        db.query(
+            'DELETE FROM messages WHERE id=?', 
+            id_files, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }            
+                console.log('suppression d un message spécifique - ok')
+            }
+        )
+
+        //enfin on supprime l'utilisateur
+        db.query(
+            'DELETE FROM users WHERE id=?', 
+            idUser, 
+            (error, result, fields) => {
+                if (error) {
+                    return res.status(400).json(error)
+                }            
+                console.log('suppression d un user spécifique - ok')
+                return res.status(200).json({ message: 'Votre user a bien été supprimé !' })
+            }
+        )
     })
 };

@@ -2,7 +2,6 @@
   <div id="wall" class="wall">
     <CreatePost />
     <Post v-for="post in allPosts" v-bind:key="post.id" :post="post" @infosPost="setInfos" />
-    <modalBoxModerate :post="post" />
   </div>
 </template>
 
@@ -10,14 +9,12 @@
 import axios from "axios";
 import CreatePost from "../components/CreatePost";
 import Post from "../components/Post";
-import modalBoxModerate from "../components/ModifPost";
 
 export default {
   name: "Mur",
   components: {
     CreatePost,
     Post,
-    modalBoxModerate
   },
   data() {
     return {

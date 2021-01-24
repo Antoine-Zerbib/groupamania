@@ -25,74 +25,6 @@
             <small>{{user.username}}</small>
           </p>
         </div>
-        <div class="user-info__block d-sm-flex justify-content-between user-info__block--flex">
-          <div class="user-info__block">
-            <p class="user-info__block__title mb-0">Password</p>
-            <small class="user-info__block__output">
-              Doit contenir au minimum 8 caractères dont une majuscule,
-              et au minimum un caractère numérique et un caractère spécial
-            </small>
-          </div>
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#BoxModalChgPwd"
-            @click="testInputs"
-          >Change</button>
-          <!--Box Modal pour changement PWD-->
-          <div
-            class="modal fade"
-            id="BoxModalChgPwd"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="BoxModalChgPwd__title"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="BoxModalChgPwd__title">Change Password</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="InputNewPassword">Entrez un nouveau password</label>
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="InputNewPassword"
-                        v-model="changePwd.newPassword"
-                      />
-                      <small
-                        id="emailHelp"
-                        class="form-text text-muted"
-                      >Au minimum 8 caractères dont une majuscule, un minuscule, un caractère numérique et un caractère spécial</small>
-                    </div>
-                    <div class="form-group">
-                      <label for="RepeatInputNewPassword">Répétez votre nouveau password</label>
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="RepeatInputNewPassword"
-                        v-model="changePwd.RepeatNewPassword"
-                      />
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" @click="changePassword">Save changes</button>
-                </div>
-                <p id="retour-api" class="text-center">{{retourAPI}}</p>
-              </div>
-            </div>
-          </div>
-          <!--END: Box Modal pour changement PWD-->
-        </div>
         <button
           type="button"
           class="btn btn-danger white d-block mx-auto mt-5 mb-2"
@@ -136,45 +68,7 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    changePassword() {
-      //Controle de la saisie du nouveau password
-      //Controle de repeat et non null
-      if (
-        this.changePwd.newPassword == this.changePwd.RepeatNewPassword &&
-        this.changePwd.newPassword != "" &&
-        this.changePwd.RepeatNewPassword != ""
-      ) {
-        const idUp = localStorage.getItem('id')
-        axios
-          .put(
-            "http://localhost:3000/api/user/"+idUp,
-            {
-              newPassword: this.changePwd.newPassword
-            },
-            {
-              headers: {
-                'Authorization': 'Bearer' + localStorage.getItem("token")
-              }
-            }
-          )
-          .then(response => {
-            console.log("pwd change", response);
-            document.getElementById("retour-api").classList.add("text-success");
-            this.retourAPI = response.data.confirmation;
-            setTimeout(() => {
-              this.retourAPI = "";
-              window.location.reload();
-            }, 2000);
-          })
-          .catch(err => {
-            console.log("admin", err);
-            this.retourAPI = "Une erreur est survenue, vérifier vos saisies";
-          });
-      } else {
-        document.getElementById("retour-api").classList.add("text-danger");
-        this.retourAPI = "Veuillez vérifier la saisie des mots de passe";
-      }
-    },
+    
     testInputs() {
       //8 caractères dont au minimum une majuscule, une minuscule, un caractère numérique et un caractère spécial
       const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/;

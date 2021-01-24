@@ -20,28 +20,13 @@
             d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
           />
         </svg>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuPost">
-          <button
-            class="dropdown-item modifPost"
-            data-toggle="modal"
-            data-target="#modalEditPost"
-            type="button"
-            @click="emitInfoPost();changeEditStyle('modify');"
-          >Modifier</button>
-          <button
-            class="dropdown-item deletePost"
-            data-toggle="modal"
-            data-target="#modalEditPost"
-            type="button"
-            @click="emitInfoPost();changeEditStyle('delete');"
-          >Supprimer</button>
-        </div>
       </div>
     </div>
     <div class="card-body">
       <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
         <img :src="post.attachement" alt="..." class="w-100" />
       </div>
+      <br><br>
       <div class="card-title"  v-if="post.content!=='null'">
         <strong><p class="mb-0">{{post.title}}</p></strong>
       </div>

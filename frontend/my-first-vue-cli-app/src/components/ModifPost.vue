@@ -11,7 +11,7 @@
       <!--Modification est demandée-->
       <div class="modal-content" v-if="editOption=='modify'">
         <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">Modifier le post</h5>
+          <h4 class="modal-title" id="ModalLabel">Modifier l'article</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -25,8 +25,8 @@
             </div>
             <div class="input-group mb-3" v-if="post.attachement">
               <br />
-              <img class="img-thumbnail" :src="post.attachement" />
-              <button type="button" class="btn btn-danger mx-auto mt-1" @click='deleteImgAction'>Delete image</button>
+              <img class="img-thumbnail m-auto" :src="post.attachement" />
+              <!-- <button type="button" class="btn btn-danger mx-auto mt-1" @click='deleteImgAction'>Delete image</button> -->
             </div>
 
             <span id="msgReturnAPI" class="mx-3"></span>
@@ -83,11 +83,10 @@ export default {
       axios
         .delete("http://localhost:3000/api/message/", {
           headers: {
-            'Authorization': 'Bearer' + localStorage.getItem("token")
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
           },
           data: {
             postId: this.post.id,
-            userIdOrder: this.user.userId
           }
         })
         .then(() => {
@@ -116,7 +115,7 @@ export default {
             },
             {
               headers: {
-                'Authorization': 'Bearer' + localStorage.getItem("token")
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
               }
             }
           )
@@ -143,7 +142,7 @@ export default {
             },
             {
               headers: {
-                'Authorization': 'Bearer' + localStorage.getItem("token")
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
               }
             }
           )
@@ -154,7 +153,9 @@ export default {
               this.retourAPI = "";
               // window.location.reload();
             }, 2000);
+            window.location.reload();
           })
+          
           .catch(err => {
             console.log("admin", err);
             this.retourAPI = "Une erreur est survenue, vérifier vos saisies";

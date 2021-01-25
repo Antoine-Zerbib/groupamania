@@ -2,7 +2,7 @@
   <div class="card mb-4 w-75 mx-auto">
     <div class="card-header d-flex justify-content-between">
       <div>Post by <em class="text-secondary">{{post.user_id}}</em> le <em class="text-secondary">{{post.publication.split('T')[0]}}</em> à <em class="text-secondary">{{post.publication.split('T')[1]}}</em></div>
-      <div class="dropdown" v-if="user.isAdmin==true || user.id == post.user_id">
+      <div class="dropdown" v-if="user.isAdmin==true || user.id == post.userId">
         <svg
           class="bi bi-three-dots dropdown-toggle"
           id="dropdownMenuPost"
@@ -20,6 +20,22 @@
             d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
           />
         </svg>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuPost">
+          <button
+            class="dropdown-item modifPost"
+            data-toggle="modal"
+            data-target="#modalEditPost"
+            type="button"
+            @click="emitInfoPost();changeEditStyle('modify');"
+          >Modifier</button>
+          <button
+            class="dropdown-item deletePost"
+            data-toggle="modal"
+            data-target="#modalEditPost"
+            type="button"
+            @click="emitInfoPost();changeEditStyle('delete');"
+          >Supprimer</button>
+        </div>
       </div>
     </div>
     <div class="card-body">

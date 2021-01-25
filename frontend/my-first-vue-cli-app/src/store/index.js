@@ -16,11 +16,7 @@ export default new Vuex.Store({
     editOption: ""
   },
 
-  getters: {
-    formattedUsername: state => {
-      return `${state.user.username}`
-    }
-  },
+  getters: {},
   
   mutations: {
    

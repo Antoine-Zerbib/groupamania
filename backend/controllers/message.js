@@ -62,11 +62,12 @@ exports.modifyMessage = (req, res, next) => {
 /* --  DELETE  -- */
 
 exports.deleteMessage = (req, res, next) => {
+    console.log('on en est là ... !')
     filename = (req, res, next) => {
         //récupération de l'Url de l'image à supprimer
         db.query(
             'SELECT imageUrl FROM messages WHERE id=? ',
-            req.params.id, 
+            req.body.postId, 
             (error, result, fields) => {
                 if (error) {
                     return res.status(400).json(error)
@@ -81,7 +82,7 @@ exports.deleteMessage = (req, res, next) => {
 
         db.query(
             'DELETE FROM messages WHERE id=?', 
-            req.params.id, 
+            req.body.postId, 
             (error, result, fields) => {
                 if (error) {
                     return res.status(400).json(error)

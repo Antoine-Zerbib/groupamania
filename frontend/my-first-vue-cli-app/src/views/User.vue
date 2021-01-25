@@ -13,24 +13,24 @@
         <h2>
           <u>Informations de l'utilisateur</u>
         </h2>
-        <div class="user-info__block">
-          <p class="user-info__block__title mb-0">Email</p>
-          <p class="user-info__block__output">
-            <small>{{user.email}}</small>
-          </p>
-        </div>
+        <br><br>
         <div class="user-info__block">
           <p class="user-info__block__title mb-0">Username</p>
           <p class="user-info__block__output">
             <small>{{user.username}}</small>
           </p>
         </div>
+        <br>
+       
         <button
           type="button"
           class="btn btn-danger white d-block mx-auto mt-5 mb-2"
           @click="deleteAccount"
         >Delete account</button>
-      </div>
+      </div> 
+      <div class="user-info__block mx-auto">
+          <p class="user-info__block__title mb-0">Attention, cela engendrera la suppression de tous vos articles.</p>
+        </div>
     </section>
   </main>
 </template>
@@ -45,10 +45,6 @@ export default {
   data() {
     return {
       retourAPI: "",
-      changePwd: {
-        newPassword: null,
-        RepeatNewPassword: null
-      }
     };
   },
   computed: {
@@ -69,32 +65,6 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    
-    testInputs() {
-      //8 caractères dont au minimum une majuscule, une minuscule, un caractère numérique et un caractère spécial
-      const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/;
-      let inputNewPwd = document.getElementById("InputNewPassword");
-      let inputRepeatNewPwd = document.getElementById("RepeatInputNewPassword");
-      inputNewPwd.addEventListener("input", function(e) {
-        let value = e.target.value;
-        let testValue = regexPassword.test(value);
-        if (testValue) {
-          inputNewPwd.style.backgroundColor = "#4CAF50";
-        } else {
-          inputNewPwd.style.backgroundColor = "#f44336";
-        }
-      });
-      inputRepeatNewPwd.addEventListener("input", function() {
-        if (
-          inputRepeatNewPwd.value == inputNewPwd.value &&
-          regexPassword.test(inputRepeatNewPwd.value)
-        ) {
-          inputRepeatNewPwd.style.backgroundColor = "#4CAF50";
-        } else {
-          inputRepeatNewPwd.style.backgroundColor = "#f44336";
-        }
-      });
-    }
   },
   mounted() {
     this.$store.dispatch("getUserInfos");

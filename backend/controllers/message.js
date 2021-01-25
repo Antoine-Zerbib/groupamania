@@ -42,21 +42,21 @@ exports.createMessage = (req, res, next) => {
 
 /* --  MODIFY  -- */
 
-// exports.modifyMessage = (req, res, next) => {
-//     const content = req.body.content
-//     const id = req.params.id
-//     console.log('nouveau texte "' + content + '" pour le message ' + id)
-//     db.query(
-//         `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
-//         (error, results, fields) => {
-//             if (error) {
-//             return res.status(400).json(error)
-//             }
-//             return res.status(200).json({ message: 'Votre message a bien été modifié !' })
-//         } 
-//     )
-//     console.log("modification message numero " + id + " - ok");
-// };
+exports.modifyMessage = (req, res, next) => {
+    const content = req.body.newText
+    const id = req.body.postId
+    console.log('nouveau texte "' + content + '" pour le message ' + id)
+    db.query(
+        `UPDATE messages SET content= ? WHERE id= ?`, [ content, id ],
+        (error, results, fields) => {
+            if (error) {
+            return res.status(400).json(error)
+            }
+            return res.status(200).json({ message: 'Votre message a bien été modifié !' })
+        } 
+    )
+    console.log("modification message numero " + id + " - ok");
+};
 
 
 /* --  DELETE  -- */

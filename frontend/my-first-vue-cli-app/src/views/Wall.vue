@@ -2,6 +2,7 @@
   <div id="wall" class="wall">
     <CreatePost />
     <Post v-for="post in allPosts" v-bind:key="post.id" :post="post" @infosPost="setInfos" />
+    <modalBoxModerate :post="post" />
   </div>
 </template>
 
@@ -9,12 +10,15 @@
 import axios from "axios";
 import CreatePost from "../components/CreatePost";
 import Post from "../components/Post";
+import modalBoxModerate from "../components/ModifPost";
+
 
 export default {
   name: "Mur",
   components: {
     CreatePost,
     Post,
+    modalBoxModerate
   },
   data() {
     return {
@@ -46,14 +50,8 @@ export default {
       .catch(error => {
         console.log(error); //n'affiche pas le message 'normalement' envoyé par le back
       }),
-      /*axios.get("http://localhost:3000/api/posts/comments")
-                .then(response => {
-                    this.nbCom=response.data;
-                    console.log(this.nbCom);
-                })
-                .catch(error => {
-                console.log(error);
-                });*/
+     
+      // appel de la méthode pour remplir le vuex.store
       this.$store.dispatch("getUserInfos");
   }
 };

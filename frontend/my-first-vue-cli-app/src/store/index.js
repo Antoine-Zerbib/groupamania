@@ -23,6 +23,7 @@ export default new Vuex.Store({
   },
   
   mutations: {
+   
     saveUserInfos(state, [username, userId, email, isAdmin]) {
         state.user.username = username,
           state.user.userId = userId,
@@ -43,8 +44,10 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
-          console.log('réponse API',response);
-          context.commit('saveUserInfos',[response.data.username, response.data.id, response.data.email, response.data.isAdmin])
+          console.log('réponse API',response.data);
+
+          //la mutation marque des erreurs avec les [0] mais ça marche ... ???
+          context.commit('saveUserInfos',[response.data.[0].username, response.data.[0].id, response.data.[0].email, response.data.[0].isAdmin])
         })
         .catch(error => {
           console.log('Erreur auth', error); //affiche pas le message 'normalement' envoyé par le back

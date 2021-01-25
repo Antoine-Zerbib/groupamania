@@ -31,7 +31,7 @@
           </div>
         </div>
         <input type="submit" class="btn btn-primary" @click.prevent="createPost" value="Submit" />
-        <span id='msgReturnAPI' class="mx-3 text-danger" v-if="user.token==null">Veuillez vous connecter</span>
+        <span id='msgReturnAPI' class="mx-3 text-danger" v-if="user.token==null">Veuillez vous connecter avec " Login "</span>
         <span id='msgReturnAPI' class="mx-3" v-else>{{msgError}}</span>
       </form>
     </div>
@@ -58,12 +58,12 @@ export default {
   },
   methods: {
     createPost() {
+
       console.log(this.contentPost);
       const fd = new FormData();
       fd.append("image", this.contentPost.postImage);
       fd.append("title", this.contentPost.title);
       fd.append("content", this.contentPost.content);
-      fd.append("id", window.localStorage.getItem("id"));
       console.log("test récup", fd.get("image"));
       console.log("test récup", fd.get("content"));
       if (fd.get("image") == "null" && fd.get("content") == "null") {

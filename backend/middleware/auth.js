@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1]; 
 
         //verifie le token avec la clef secrète qui doit correspondre à celle dans la fonction login
-        const decodedToken = jwt.verify(token, 'env.TOKEN_USER'); 
+        const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
 
         // extraction l'objet js dans le token : userId
         const userId = decodedToken.userId;

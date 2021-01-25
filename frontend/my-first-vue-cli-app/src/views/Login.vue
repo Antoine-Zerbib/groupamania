@@ -60,9 +60,13 @@ export default {
           .post("http://localhost:3000/api/user/login", this.dataLogin)
           .then(response => {
             localStorage.setItem('token',response.data.token)
-            localStorage.setItem('id',response.data.id)
+            'user'
+            // appeler la methode getUserInfos du store
+            //  this.$store.dispatch("getUserInfos")
             location.replace(location.origin)
           })
+          console.log('push user to store ?')
+           this.$store.dispatch("getUserInfos")
           .catch(error => console.log(error));
       } else {
         console.log("oops !");

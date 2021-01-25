@@ -1,4 +1,4 @@
-
+const jwt = require('jsonwebtoken');
 const db = require('../mysqlConnect');//Configuration information de connections mysql
 const dotenv = require("dotenv");
 dotenv.config({ path: './.env' });
@@ -12,14 +12,18 @@ const fs = require('fs'); //donne accès aux différentes opérations liées au 
 
 exports.createMessage = (req, res, next) => {
     console.log("début création message");
+    const token = req.headers.authorization.split(' ')[1]; 
+    const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
+    const userId = decodedToken.user_id;
+    console.log('userId : '+ userId)
 
     //on rajoute une étape car le frontend ne sais pas quel est l'Url de l'image maintenant
     //car c'est notre middleware multer qui a généré ce fichier
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     console.log("imageUrl : " + imageUrl);
     const bindings = {
-        user_id: req.body.id,
-        title:req.body.title,
+        user_id: userId,
+        title: req.body.title,
         content: req.body.content,
         attachement: imageUrl,
         publication: new Date()
@@ -92,20 +96,20 @@ exports.deleteMessage = (req, res, next) => {
 
 /* --  READ  -- */
 
-// recupérer les infos d'un message
-exports.getOneMessage = (req, res, next) => {
-    db.query(
-        'SELECT* FROM messages WHERE id=? ',
-        req.params.id,
-        (error, result, field) => {
-            if (error) {
-                return res.status(400).json({ error })
-            }
-            console.log('récupération d un message spécifique - ok')
-            return res.status(200).json(result)
-        }
-    )
-};
+// // recupérer les infos d'un message
+// exports.getOneMessage = (req, res, next) => {
+//     db.query(
+//         'SELECT* FROM messages WHERE id=? ',
+//         req.params.id,
+//         (error, result, field) => {
+//             if (error) {
+//                 return res.status(400).json({ error })
+//             }
+//             console.log('récupération d un message spécifique - ok')
+//             return res.status(200).json(result)
+//         }
+//     )
+// };
 
 //récupérer tous les messages
 exports.getAllMessages = (req, res, next) => {

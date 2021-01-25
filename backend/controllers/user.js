@@ -70,8 +70,13 @@ exports.login = (req, res, next) => {
 
 /* -- ONE USER -- */
 
-exports.getOneUser = (req, res, next) => {
-    db.query('SELECT * FROM users WHERE id= ? ', req.params.id, (error, result, field) => {
+exports.getConnectedUser = (req, res, next) => {
+    console.log('test1')
+    const token = req.headers.authorization.split(' ')[1]; 
+        const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
+        const userId = decodedToken.user_id;
+        console.log(userId)
+    db.query('SELECT * FROM users WHERE id= ? ', userId, (error, result, field) => {
         if (error) {
             return res.status(400).json({ error })
         }
@@ -85,29 +90,33 @@ exports.getOneUser = (req, res, next) => {
 
 
 exports.deleteUser = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1]; 
+        const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
+        const userId = decodedToken.user_id;
+        console.log(userId)
 
-    filename = (req, res, next) => {
+// //récupération de l'Url de l'image à supprimer
+//     imageUrl = (req, res, next) => {
+//         db.query(
+//             'SELECT imageUrl FROM messages WHERE user_id=? ',
+//             userId, 
+//             (error, result, fields) => {
+//                 if (error) {
+//                     return res.status(400).json(error)
+//                 }
+//                 console.log('sélection des url images pour suppression')
+//             }
+//         )
+//     }
+//     console.log(imageUrl)
 
-        //récupération de l'Url de l'image à supprimer
-        db.query(
-            'SELECT imageUrl FROM messages WHERE user_id=? ',
-            req.params.id, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('sélection des url images pour suppression')
-            }
-        )
-    }
-
-    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
-    fs.unlink(`images/${filename}`, () => {
+    // // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
+    // fs.unlink(imageUrl, () => {
 
         //on supprime d'abord les messages
         db.query(
             'DELETE FROM messages WHERE user_id=?', 
-            req.params.id, 
+            userId, 
             (error, result, fields) => {
                 if (error) {
                     return res.status(400).json(error)
@@ -119,16 +128,16 @@ exports.deleteUser = (req, res, next) => {
         //enfin on supprime l utilisateur
         db.query(
             'DELETE FROM users WHERE id=?', 
-            req.params.id, 
+            userId, 
             (error, result, fields) => {
                 if (error) {
                     return res.status(400).json(error)
                 }            
-                console.log('suppression d un message spécifique - ok')
+                console.log('suppression du compte utilisateur : ' + userId)
                 return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
             }
         )
-    })
+    // })
 };
 
 

@@ -35,7 +35,7 @@ export default {
       axios
       .get("http://localhost:3000/api/message/", {
         headers: {
-          'Authorization': 'Bearer' + localStorage.getItem("token")
+          'Authorization': 'Bearer ' + localStorage.getItem("token")
         }
       })
       //.get("http://localhost:3000/api/post",this.$store.state.headerParams)
@@ -44,7 +44,7 @@ export default {
         this.allPosts = response.data;
       })
       .catch(error => {
-        console.log(error); //affiche pas le message 'normalement' envoyé par le back
+        console.log(error); //n'affiche pas le message 'normalement' envoyé par le back
       }),
       /*axios.get("http://localhost:3000/api/posts/comments")
                 .then(response => {

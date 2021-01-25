@@ -38,6 +38,7 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "User",
@@ -52,14 +53,14 @@ export default {
   },
   computed: {
     ...mapState(["user"])
+    //...mapGetters(["user"])
   },
   methods: {
     deleteAccount() {
-      const idDel = localStorage.getItem('id')
       axios
-        .delete("http://localhost:3000/api/user/"+idDel, {
+        .delete("http://localhost:3000/api/user/me", {
           headers: {
-            'Authorization': 'Bearer' + localStorage.getItem("token")
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
           }
         })
         .then(() => {

@@ -15,6 +15,13 @@ export default new Vuex.Store({
     },
     editOption: ""
   },
+
+  getters: {
+    formattedUsername: state => {
+      return `${state.user.username}`
+    }
+  },
+  
   mutations: {
     saveUserInfos(state, [username, userId, email, isAdmin]) {
         state.user.username = username,
@@ -29,12 +36,10 @@ export default new Vuex.Store({
   },
   actions: {
     getUserInfos(context) {
-      const idGet = localStorage.getItem('id')
-      console.log(idGet)
       axios
-        .get("http://localhost:3000/api/user/"+idGet,{
+        .get("http://localhost:3000/api/user/me",{
           headers: {
-            'Authorization': 'Bearer' + localStorage.getItem("token")
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
           }
         })
         .then(response => {

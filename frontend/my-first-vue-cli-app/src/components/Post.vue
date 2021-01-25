@@ -2,7 +2,7 @@
   <div class="card mb-4 w-75 mx-auto">
     <div class="card-header d-flex justify-content-between">
       <div>Post by <em class="text-secondary">{{post.user_id}}</em> le <em class="text-secondary">{{post.publication.split('T')[0]}}</em> à <em class="text-secondary">{{post.publication.split('T')[1]}}</em></div>
-      <div class="dropdown" v-if="user.isAdmin==true || user.id == post.userId">
+      <div class="dropdown" v-if="user.isAdmin==true || user.userId == post.user_id">
         <svg
           class="bi bi-three-dots dropdown-toggle"
           id="dropdownMenuPost"

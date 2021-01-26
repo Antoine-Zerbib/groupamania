@@ -1,7 +1,0 @@
-TOKEN_USER= create a token
-
-NAME = your mysql username
-
-PASS = your mysql user password
-
-HOST = your host 

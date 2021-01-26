@@ -29,11 +29,7 @@
                 @click="deleteAccount">
                     Supprimer mon compte</button>
             </div> 
-            <div class="user-info__block mx-auto">
-                <p class="user-info__block__title mb-0">
-                    Attention, cela engendrera la suppression de tous vos articles.
-                </p>
-            </div>
+            
         </section>
     </main>
 </template>

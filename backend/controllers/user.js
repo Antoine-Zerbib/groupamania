@@ -91,7 +91,6 @@ exports.deleteUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1]; 
     const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
     const userId = decodedToken.user_id;
-    console.log('test userID : '+userId)
 
     // récupération de l'id admin
     db.query( 
@@ -102,7 +101,6 @@ exports.deleteUser = (req, res, next) => {
                 return res.status(400).json({ error })
             }
             const admin_id = result[0].id;
-            console.log('test admin_id : '+admin_id)
 
             // récupération des messages de l'utilisateur 
             // et on les transfère sur le compte de l'admin 
@@ -114,23 +112,22 @@ exports.deleteUser = (req, res, next) => {
                         console.log('erreur 1 '+ error )
                         return res.status(400).json({ error })
                     }
+                    // puis on supprime l utilisateur
+                    db.query(
+                        'DELETE FROM users WHERE id=?', 
+                        userId, 
+                        (error, result, fields) => {
+                            if (error) {
+                                return res.status(400).json(error)
+                            }            
+                            console.log('suppression du compte utilisateur : ' + userId)
+                            return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+                        }
+                    )
                 }
             )
         }
-    )
-
-    // puis on supprime l utilisateur
-    db.query(
-        'DELETE FROM users WHERE id=?', 
-        userId, 
-        (error, result, fields) => {
-            if (error) {
-                return res.status(400).json(error)
-            }            
-            console.log('suppression du compte utilisateur : ' + userId)
-            return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
-        }
-    )  
+    )   
 };
 
 

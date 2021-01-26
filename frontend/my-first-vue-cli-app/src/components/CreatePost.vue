@@ -4,7 +4,7 @@
       <h3>Créer un article</h3>
       <form enctype="multipart/form-data" action="/create" method="post">
         <div class="input-group mb-3">
-          <label for="input_text">Titre :</label>
+          <label for="input_text">Titre (ajoutez votre pseudonyme après le titre :  - by "pseudo" -  ) :</label>
           <br />
           <input v-model="contentPost.title" class="input-text" id="input_text" type="text" />
         </div>
@@ -66,7 +66,7 @@ export default {
       fd.append("content", this.contentPost.content);
       console.log("test récup", fd.get("image"));
       console.log("test récup", fd.get("content"));
-      if (fd.get("image") == "null" && fd.get("content") == "null") {
+      if (fd.get("image") == "null" && fd.get("title") == "null" && fd.get("content") == "null") {
         let msgReturn = document.getElementById('msgReturnAPI')
         msgReturn.classList.add('text-danger')
         this.msgError = "Rien à publier";
@@ -99,5 +99,6 @@ export default {
 <style>
 .input-text {
   width: 100%;
+  text-overflow: clip;
 }
 </style>

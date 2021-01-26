@@ -26,7 +26,6 @@
             <div class="input-group mb-3" v-if="post.attachement">
               <br />
               <img class="img-thumbnail m-auto" :src="post.attachement" />
-              <!-- <button type="button" class="btn btn-danger mx-auto mt-1" @click='deleteImgAction'>Delete image</button> -->
             </div>
 
             <span id="msgReturnAPI" class="mx-3"></span>
@@ -163,9 +162,6 @@ export default {
           else{
         console.log("aucun changement");
       }
-    },
-    deleteImgAction() {
-      this.deleteImg = true;
     }
   }
 };

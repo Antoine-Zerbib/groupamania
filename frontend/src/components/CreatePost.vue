@@ -9,7 +9,7 @@
           <input v-model="contentPost.title" class="input-text" id="input_text" type="text" />
         </div>
         <div class="input-group mb-3">
-          <label for="input_text">Article :</label>
+          <label for="input_text">Article : ( Veuillez noter votre pseudonyme juste après le titre : " - by pseudo - " ) :</label>
           <br />
           <input v-model="contentPost.content" class="input-text" id="input_titre" type="text" />
         </div>

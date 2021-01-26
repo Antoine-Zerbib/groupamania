@@ -40,7 +40,7 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
-          context.commit('saveUserInfos',[response.data[0].username, response.data[0].id, response.data[0].email, response.data[0].isAdmin])
+          context.commit('saveUserInfos',[response.data.username, response.data.id, response.data.email, response.data.isAdmin])
         })
         .catch(error => {
           //affiche pas le message 'normalement' envoyé par le back

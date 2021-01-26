@@ -91,53 +91,54 @@ exports.getConnectedUser = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1]; 
-        const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
-        const userId = decodedToken.user_id;
-        console.log(userId)
+    const decodedToken = jwt.verify(token, process.env.TOKEN_USER); 
+    const userId = decodedToken.user_id;
+    console.log(userId)
 
-// //récupération de l'Url de l'image à supprimer
-//     imageUrl = (req, res, next) => {
-//         db.query(
-//             'SELECT imageUrl FROM messages WHERE user_id=? ',
-//             userId, 
-//             (error, result, fields) => {
-//                 if (error) {
-//                     return res.status(400).json(error)
-//                 }
-//                 console.log('sélection des url images pour suppression')
-//             }
-//         )
-//     }
-//     console.log(imageUrl)
+//récupération du tableau d'Url d'images à supprimer
 
-    // // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
-    // fs.unlink(imageUrl, () => {
-
-        //on supprime d'abord les messages
-        db.query(
-            'DELETE FROM messages WHERE user_id=?', 
-            userId, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('suppression des messages de l utilisateur')
+    db.query( 
+        'UPDATE messages SET user_id= 64 WHERE user_id= ? ',
+        userId,  
+        (error, result, field) => {
+            if (error) {
+                console.log('erreur 1 '+ error )
+                return res.status(400).json({ error })
             }
-        )
-        
-        //enfin on supprime l utilisateur
-        db.query(
-            'DELETE FROM users WHERE id=?', 
-            userId, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }            
-                console.log('suppression du compte utilisateur : ' + userId)
-                return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+        }
+    )
+
+
+
+    console.log('images supprimées ?')
+
+    //on supprime d'abord les messages
+    db.query(
+        'DELETE FROM messages WHERE user_id=?', 
+        userId, 
+        (error, result, fields) => {
+            if (error) {
+                return res.status(400).json(error)
             }
-        )
-    // })
+            console.log('suppression des messages de l utilisateur')
+        }
+    )
+
+    //enfin on supprime l utilisateur
+    db.query(
+        'DELETE FROM users WHERE id=?', 
+        userId, 
+        (error, result, fields) => {
+            if (error) {
+                return res.status(400).json(error)
+            }            
+            console.log('suppression du compte utilisateur : ' + userId)
+            return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+        }
+    )
+    
+
+    
 };
 
 

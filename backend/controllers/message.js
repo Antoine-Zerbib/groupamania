@@ -61,24 +61,21 @@ exports.modifyMessage = (req, res, next) => {
 
 /* --  DELETE  -- */
 
-exports.deleteMessage = (req, res, next) => {
-    console.log('on en est là ... !')
-    filename = (req, res, next) => {
-        //récupération de l'Url de l'image à supprimer
-        db.query(
-            'SELECT imageUrl FROM messages WHERE id=? ',
-            req.body.postId, 
-            (error, result, fields) => {
-                if (error) {
-                    return res.status(400).json(error)
-                }
-                console.log('sélection de l image à supprimer')
-            }
-        )
-    }
 
-    // appel d'une fonction du package 'fs' : unlink sert a supprimer un fichier
-    fs.unlink(`images/${filename}`, () => {
+exports.deleteMessage = (req, res, next) => {
+  
+    //récupération de l'Url de l'image à supprimer
+    db.query( 'SELECT attachement FROM messages WHERE id=? ',
+    req.body.postId,  
+    (error, result, field) => {
+        if (error) {
+            console.log('erreur 1 '+error )
+            return res.status(400).json({ error })
+        }
+        const filename = result[0].attachement.split('/images/')[1];       
+
+        // appel d'une fonction du package 'fs' : unlink sert a supprimer l'image
+        fs.unlink(`images/${filename}`, () => {
 
         db.query(
             'DELETE FROM messages WHERE id=?', 
@@ -92,6 +89,8 @@ exports.deleteMessage = (req, res, next) => {
             }
         )
     })
+})
+
 };
 
 

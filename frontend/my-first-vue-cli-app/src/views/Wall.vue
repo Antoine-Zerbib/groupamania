@@ -40,6 +40,7 @@ export default {
       .get("http://localhost:3000/api/message/", {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token")
+          
         }
       })
       //.get("http://localhost:3000/api/post",this.$store.state.headerParams)
@@ -48,7 +49,9 @@ export default {
         this.allPosts = response.data;
       })
       .catch(error => {
-        console.log(error); //n'affiche pas le message 'normalement' envoyé par le back
+
+        //n'affiche pas le message 'normalement' envoyé par le back
+        console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error); 
       }),
      
       // appel de la méthode pour remplir le vuex.store

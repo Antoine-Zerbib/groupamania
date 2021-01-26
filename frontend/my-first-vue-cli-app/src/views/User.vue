@@ -61,7 +61,7 @@ export default {
         })
         .then(() => {
           localStorage.clear();
-          location.replace(location.origin+'/#/signup');
+          location.replace(location.origin);
         })
         .catch(error => console.log(error));
     },
@@ -69,6 +69,7 @@ export default {
   mounted() {
     this.$store.dispatch("getUserInfos");
   }
+
 };
 </script>
 

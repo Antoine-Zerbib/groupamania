@@ -40,13 +40,16 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
-          console.log('réponse API',response.data);
+          console.log('réponse API : data :',response.data);
+          console.log('réponse API : .data.username',response.data.username);
+          console.log('réponse API : .data[0].username',response.data[0].username);
 
           //la mutation marque des erreurs avec les [0] mais ça marche ... ???
-          context.commit('saveUserInfos',[response.data.[0].username, response.data.[0].id, response.data.[0].email, response.data.[0].isAdmin])
+          context.commit('saveUserInfos',[response.data[0].username, response.data[0].id, response.data[0].email, response.data[0].isAdmin])
         })
         .catch(error => {
-          console.log('Erreur auth', error); //affiche pas le message 'normalement' envoyé par le back
+          //affiche pas le message 'normalement' envoyé par le back
+           console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error);  
         });
     },
     changeEditStyle(context, value){

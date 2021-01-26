@@ -11,21 +11,27 @@ du coup on va créer un middleware qui va configurer 'multer' pour lui expliquer
 //import de multer
 const multer = require('multer'); 
 const MIME_TYPES = {
-    'images/gif': 'gif,',
-    'images/jpg': 'jpg',
-    'images/jpeg': 'jpg',
-    'images/png': 'png'    
+    'image/gif': 'gif',
+    'image/jpg': 'jpg',
+    'image/jpeg': 'jpg',
+    'image/png': 'png'    
 };
 const storage = multer.diskStorage({ 
     destination: (req, file, callback) => { 
-        callback(null, 'images') 
-        console.log('destination multer')
+         console.log('destination multer')
+         callback(null, 'images') 
+       
     },
     filename: (req, file, callback) => {
         console.log('filename multer')
+       
+
 
         const name = file.originalname.split(' ').join('_');
-        const extension = MIME_TYPES[file.mimitype]; 
+        const extension = MIME_TYPES[file.mimetype]; 
+        console.log('file test2 ' + JSON.stringify(file))
+     
+
         callback(null, name + Date.now() + '.' + extension); 
         
     }

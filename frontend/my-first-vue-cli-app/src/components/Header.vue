@@ -17,9 +17,6 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarToggle">
       <ul class="navbar-nav mt-2 mt-lg-0">
-        <li class="nav-item" v-if="user.token!==null">
-          <router-link class="nav-link" to="/">Home</router-link>
-        </li>
         <li class="nav-item" v-if="user.token==null">
           <router-link class="nav-link" to="/signup">Sign Up</router-link>
         </li>
@@ -28,7 +25,7 @@
         </li>
         <li class="nav-item" v-if="user.token!==null">
           <router-link class="nav-link" to="/user">
-            <i class="user-icon fas fa-user"></i>
+            <i class="user-icon fas fa-user"> Utilisateur</i>
           </router-link>
         </li>
         <li class="nav-item" v-if="user.token!==null">

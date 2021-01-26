@@ -8,7 +8,7 @@
         <p>
           <small>
             Vous avez déjà un compte,
-            <router-link class="redirection-singup" to="/login">connecter-vous</router-link>
+            <router-link class="redirection-singup" to="/login">connectez-vous</router-link>
           </small>
         </p>
       </div>
@@ -29,7 +29,7 @@
             id="inputPassword"
             v-model="dataSignup.password"
           />
-          <p>Obligatoire : une masjucule, un chiffre, un symbole et 8 caractères</p>
+          <p>Obligatoire : une majuscule, un chiffre, un symbole et 8 caractères</p>
         </div>
         <button @click.prevent="sendSignup" type="submit" class="btn btn-primary">Submit</button>
       </div>
@@ -72,7 +72,7 @@ export default {
           .then(response => {
             console.log('data response au signup : ');
             console.log( response );
-            location.replace(location.origin)
+            location.replace(location.origin+'/#/login')
 
             //Réinitialisation
             this.dataSignup.email = null;

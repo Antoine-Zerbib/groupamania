@@ -46,9 +46,9 @@ import { mapState } from "vuex";
 export default {
     name: "User",
     data() {
-            return {
-                retourAPI: "",
-            };
+        return {
+            retourAPI: "",
+        };
     },
     computed: {
             ...mapState(["user"])
@@ -56,21 +56,21 @@ export default {
     },
     methods: {
         deleteAccount() {
-                axios
-                .delete("http://localhost:3000/api/user/me", {
-                    headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem("token")
-                    }
-                })
-                .then(() => {
-                    localStorage.clear();
-                    location.replace(location.origin);
-                })
-                .catch(error => console.log(error));
+            axios
+            .delete("http://localhost:3000/api/user/me", {
+                headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("token")
+                }
+            })
+            .then(() => {
+                localStorage.clear();
+                location.replace(location.origin);
+            })
+            .catch(error => console.log(error));
         },
     },
     mounted() {
-            this.$store.dispatch("getUserInfos");
+        this.$store.dispatch("getUserInfos");
     }
 };
 </script>

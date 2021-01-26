@@ -57,9 +57,9 @@ export default {
     methods: {
         logIn() {
             if (
-                    //TO DO : Vérifier par Regex
-                    this.dataLogin.username !== null ||
-                    this.dataLogin.password !== null
+                //TO DO : Vérifier par Regex
+                this.dataLogin.username !== null ||
+                this.dataLogin.password !== null
             ) {
                 axios
                 .post("http://localhost:3000/api/user/login", this.dataLogin)

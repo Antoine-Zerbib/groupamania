@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../mysqlConnect');//Configuration information de connections mysql
 const dotenv = require("dotenv");
 dotenv.config({ path: './.env' });
-
-//import du package fs de nodes
-const fs = require('fs'); //donne accès aux différentes opérations liées au système de fichier
+const fs = require('fs'); 
 
 
 
@@ -63,7 +61,7 @@ exports.modifyMessage = (req, res, next) => {
 
 
 exports.deleteMessage = (req, res, next) => {
-  
+
     //récupération de l'Url de l'image à supprimer
     db.query( 'SELECT attachement FROM messages WHERE id=? ',
     req.body.postId,  
@@ -92,24 +90,6 @@ exports.deleteMessage = (req, res, next) => {
 })
 
 };
-
-
-/* --  READ  -- */
-
-// // recupérer les infos d'un message
-// exports.getOneMessage = (req, res, next) => {
-//     db.query(
-//         'SELECT* FROM messages WHERE id=? ',
-//         req.params.id,
-//         (error, result, field) => {
-//             if (error) {
-//                 return res.status(400).json({ error })
-//             }
-//             console.log('récupération d un message spécifique - ok')
-//             return res.status(200).json(result)
-//         }
-//     )
-// };
 
 //récupérer tous les messages
 exports.getAllMessages = (req, res, next) => {

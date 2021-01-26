@@ -1,9 +1,5 @@
-//import du package http de node : accès à l'objet http
 const http = require('http');
-
-//import de l'application
 const app = require('./app');
-
 const normalizePort = val => {
     const port = parseInt(val, 10);
 
@@ -17,8 +13,6 @@ const normalizePort = val => {
 };
 
 const port = normalizePort(process.env.PORT || '3000');
-
-//dire à l'app express sur quel PORT elle doit touner
 app.set('port', port);
 
 
@@ -42,7 +36,6 @@ const errorHandler = error => {
     }
 };
 
-//création du serveur avec la méthode createServer du package 'http'
 const server = http.createServer(app);
 
 server.on('error', errorHandler);

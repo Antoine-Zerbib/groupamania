@@ -1,9 +1,9 @@
 <template>
-  <div id="wall" class="wall">
-    <CreatePost />
-    <Post v-for="post in allPosts" v-bind:key="post.id" :post="post" @infosPost="setInfos" />
-    <modalBoxModerate :post="post" />
-  </div>
+    <div id="wall" class="wall">
+        <CreatePost />
+        <Post v-for="post in allPosts" v-bind:key="post.id" :post="post" @infosPost="setInfos" />
+        <modalBoxModerate :post="post" />
+    </div>
 </template>
 
 <script>
@@ -14,49 +14,49 @@ import modalBoxModerate from "../components/ModifPost";
 
 
 export default {
-  name: "Mur",
-  components: {
-    CreatePost,
-    Post,
-    modalBoxModerate
-  },
-  data() {
-    return {
-      post: {
-        id: "",
-        content: "",
-        image: ""
-      },
-      allPosts: []
-    };
-  },
-  methods: {
-    setInfos(payload) {
-      this.post = payload.post;
-    }
-  },
-  mounted() {  
-      axios
-      .get("http://localhost:3000/api/message/", {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem("token")
-          
+    name: "Mur",
+    components: {
+        CreatePost,
+        Post,
+        modalBoxModerate
+    },
+    data() {
+        return {
+            post: {
+                id: "",
+                content: "",
+                image: ""
+            },
+            allPosts: []
+        };
+    },
+    methods: {
+        setInfos(payload) {
+            this.post = payload.post;
         }
-      })
-      //.get("http://localhost:3000/api/post",this.$store.state.headerParams)
-      .then(response => {
-        console.log("post", response.data);
-        this.allPosts = response.data;
-      })
-      .catch(error => {
+    },
+    mounted() {  
+        axios
+        .get("http://localhost:3000/api/message/", {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+                
+            }
+        })
+        //.get("http://localhost:3000/api/post",this.$store.state.headerParams)
+        .then(response => {
+            console.log("post", response.data);
+            this.allPosts = response.data;
+        })
+        .catch(error => {
 
-        //n'affiche pas le message 'normalement' envoyé par le back
-        console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error); 
-      }),
-     
-      // appel de la méthode pour remplir le vuex.store
-      this.$store.dispatch("getUserInfos");
-  }
+            //n'affiche pas le message 'normalement' envoyé par le back
+            console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error); 
+        }),
+        
+        // appel de la méthode pour remplir le vuex.store
+        this.$store.dispatch("getUserInfos");
+    }
 };
 </script>
 

@@ -1,17 +1,17 @@
 <template>
-  <div id="app" class="container-fluid">
-    <Header />
-      <router-view />
-  </div>
+    <div id="app" class="container-fluid">
+        <Header />
+        <router-view />
+    </div>
 </template>
 
 <script>
 import Header from "./components/Header";
 
 export default {
-  components: {
-    Header
-  }
+    components: {
+        Header
+    }
 };
 </script>
 

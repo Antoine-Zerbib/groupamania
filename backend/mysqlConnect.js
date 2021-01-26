@@ -1,13 +1,9 @@
 const mysql = require('mysql');
 const dotenv = require("dotenv");
-
-dotenv.config({path: './.env'}); //masquage des informations sensibles comme les idantifiants et les mots de passes
-
+dotenv.config({path: './.env'}); 
 const NAME = process.env.NAME;
 const PASS = process.env.PASS;
 const HOST = process.env.HOST;
-
-//Connexion à la base de donnée Mysql
 
 const db = mysql.createConnection({
     host     : HOST,
@@ -22,6 +18,5 @@ db.connect((err) => {
     }
     console.log('Connecté a mysql avec l \'id '  + db.threadId);
 });
-
 
 module.exports = db;

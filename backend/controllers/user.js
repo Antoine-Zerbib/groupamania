@@ -1,11 +1,8 @@
 const bcrypt = require('bcrypt');
-
-//package qui permet de creer des tokens et les vérifier
 const jwt = require('jsonwebtoken');
 const db = require('../mysqlConnect');
 const dotenv = require("dotenv");
 dotenv.config({path: './.env'});
-const fs = require('fs'); 
 
 
 
@@ -61,9 +58,9 @@ exports.login = (req, res, next) => {
                 }
             })
         } 
-       else {
+    else {
             res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu' })
-       }
+    }
     })
 };
 
@@ -98,7 +95,7 @@ exports.deleteUser = (req, res, next) => {
 
     // récupération de l'id admin
     db.query( 
-       'SELECT * FROM users WHERE username= "admin" ',
+    'SELECT * FROM users WHERE username= "admin" ',
         (error, result, field) => {
             if (error) {
                 console.log('erreur fetch admin id '+ error )
@@ -111,7 +108,7 @@ exports.deleteUser = (req, res, next) => {
             // et on les transfère sur le compte de l'admin 
             db.query( 
                 'UPDATE messages SET user_id= ? WHERE user_id= ? ', 
-                 [admin_id, userId],  
+                [admin_id, userId],  
                 (error, result, field) => {
                     if (error) {
                         console.log('erreur 1 '+ error )
@@ -137,8 +134,6 @@ exports.deleteUser = (req, res, next) => {
 };
 
 
-
-   
 
 
 // /* -- ALL USERS -- */

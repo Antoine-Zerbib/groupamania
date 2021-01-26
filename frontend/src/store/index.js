@@ -5,15 +5,15 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    user: {
-      username: 'Nc',
-      userId: 'Nc',
-      email: 'Nc',
-      token: null,
-      isAdmin: false
-    },
-    editOption: ""
+    state: {
+        user: {
+            username: 'Nc',
+            userId: 'Nc',
+            email: 'Nc',
+            token: null,
+            isAdmin: false
+        },
+        editOption: ""
   },
 
   getters: {},
@@ -22,35 +22,35 @@ export default new Vuex.Store({
    
     saveUserInfos(state, [username, userId, email, isAdmin]) {
         state.user.username = username,
-          state.user.userId = userId,
-          state.user.email = email,
-          state.user.token = localStorage.getItem('token'),
-          state.user.isAdmin = isAdmin
+            state.user.userId = userId,
+            state.user.email = email,
+            state.user.token = localStorage.getItem('token'),
+            state.user.isAdmin = isAdmin
     },
     editStyle(state, value) {
-      state.editOption = value
+        state.editOption = value
     }
-  },
-  actions: {
-    getUserInfos(context) {
-      axios
-        .get("http://localhost:3000/api/user/me",{
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem("token")
-          }
-        })
-        .then(response => {
-          context.commit('saveUserInfos',[response.data.username, response.data.id, response.data.email, response.data.isAdmin])
-        })
-        .catch(error => {
-          //affiche pas le message 'normalement' envoyé par le back
-           console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error);  
-        });
+},
+    actions: {
+        getUserInfos(context) {
+        axios
+            .get("http://localhost:3000/api/user/me",{
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+            })
+            .then(response => {
+                context.commit('saveUserInfos',[response.data.username, response.data.id, response.data.email, response.data.isAdmin])
+            })
+            .catch(error => {
+                //affiche pas le message 'normalement' envoyé par le back
+                console.log("vous n'êtes pas connecté, erreur d'abscence de token : " + error);  
+            });
+        },
+        changeEditStyle(context, value){
+            context.commit('editStyle',value)
+        }
     },
-    changeEditStyle(context, value){
-      context.commit('editStyle',value)
+    modules: {
     }
-  },
-  modules: {
-  }
 })

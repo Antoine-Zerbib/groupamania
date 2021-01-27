@@ -52,7 +52,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Etes vous sûr de vouloir supprimer ce post</p>
+                    <p>Etes vous sûr de vouloir supprimer cet article ?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
